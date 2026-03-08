@@ -35,6 +35,73 @@
       padding: 0 0 60px;
     }
 
+    /* ── Loading screen ── */
+    #loading-screen {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 999;
+      font-size: 1rem; color: var(--muted);
+      flex-direction: column; gap: 14px;
+    }
+    .spinner {
+      width: 32px; height: 32px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Auth screen ── */
+    #auth-screen {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      display: none;
+      align-items: center; justify-content: center;
+      z-index: 998;
+    }
+    .auth-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      padding: 36px 32px;
+      width: 100%; max-width: 380px;
+    }
+    .auth-card h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
+    .auth-card h2 span { color: var(--accent); }
+    .auth-card p { color: var(--muted); font-size: 0.88rem; margin-bottom: 24px; }
+    .auth-field { margin-bottom: 14px; }
+    .auth-field label {
+      display: block; font-size: 0.82rem; font-weight: 600;
+      margin-bottom: 5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px;
+    }
+    .auth-field input {
+      width: 100%; padding: 10px 13px;
+      border: 1.5px solid var(--border); border-radius: var(--radius);
+      font-size: 0.93rem; outline: none; background: var(--bg);
+      transition: border-color 0.15s;
+    }
+    .auth-field input:focus { border-color: var(--accent); background: var(--surface); }
+    .auth-error {
+      color: var(--danger); font-size: 0.83rem;
+      margin-bottom: 12px; min-height: 18px;
+      background: var(--danger-light); border-radius: 6px;
+      padding: 0; transition: padding 0.15s;
+    }
+    .auth-error:not(:empty) { padding: 8px 12px; }
+    .btn-full { width: 100%; padding: 11px; font-size: 0.95rem; }
+    .auth-switch {
+      text-align: center; font-size: 0.85rem;
+      color: var(--muted); margin-top: 18px;
+    }
+    .auth-switch a {
+      color: var(--accent); cursor: pointer;
+      font-weight: 600; text-decoration: none;
+    }
+    .auth-switch a:hover { text-decoration: underline; }
+
     /* ── Header ── */
     header {
       background: var(--surface);
@@ -50,10 +117,17 @@
     }
     header h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.3px; }
     header h1 span { color: var(--accent); }
+    .header-right { display: flex; align-items: center; gap: 24px; }
     .header-stats { display: flex; gap: 20px; }
     .stat { text-align: center; }
     .stat .num { font-size: 1.3rem; font-weight: 700; }
     .stat .lbl { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .user-info { display: flex; align-items: center; gap: 10px; }
+    .user-email {
+      font-size: 0.83rem; color: var(--muted);
+      max-width: 180px; overflow: hidden;
+      text-overflow: ellipsis; white-space: nowrap;
+    }
 
     /* ── Main layout ── */
     main { max-width: 860px; margin: 0 auto; padding: 32px 20px 0; }
@@ -205,7 +279,7 @@
     }
     .add-task-input:focus { border-color: var(--accent); }
 
-    /* ── Status selector modal-like dropdown ── */
+    /* ── Status selector ── */
     .status-menu {
       position: fixed; background: var(--surface);
       border: 1.5px solid var(--border); border-radius: var(--radius);
@@ -233,24 +307,71 @@
       display: none;
     }
     #overlay.visible { display: block; }
+
+    /* ── Save indicator ── */
+    #save-indicator {
+      position: fixed; bottom: 20px; right: 20px;
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 20px; padding: 6px 14px;
+      font-size: 0.8rem; color: var(--muted);
+      box-shadow: var(--shadow); opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    #save-indicator.visible { opacity: 1; }
   </style>
 </head>
 <body>
 
+<!-- Loading screen -->
+<div id="loading-screen">
+  <div class="spinner"></div>
+  Loading…
+</div>
+
+<!-- Auth screen -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <h2>Project <span>Tracker</span></h2>
+    <p id="auth-subtitle">Sign in to your account</p>
+    <div class="auth-field">
+      <label>Email</label>
+      <input type="email" id="auth-email" placeholder="you@example.com" autocomplete="email" />
+    </div>
+    <div class="auth-field">
+      <label>Password</label>
+      <input type="password" id="auth-password" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+    <div class="auth-error" id="auth-error"></div>
+    <button class="btn btn-primary btn-full" id="auth-submit-btn">Sign In</button>
+    <div class="auth-switch">
+      <span id="auth-switch-text">Don't have an account?</span>
+      <a id="auth-switch-link"> Sign Up</a>
+    </div>
+  </div>
+</div>
+
+<!-- App -->
 <header>
   <h1>Project <span>Tracker</span></h1>
-  <div class="header-stats">
-    <div class="stat"><div class="num" id="stat-cats">0</div><div class="lbl">Categories</div></div>
-    <div class="stat"><div class="num" id="stat-tasks">0</div><div class="lbl">Tasks</div></div>
-    <div class="stat"><div class="num" id="stat-done">0</div><div class="lbl">Done</div></div>
-    <div class="stat"><div class="num" id="stat-pct">0%</div><div class="lbl">Complete</div></div>
+  <div class="header-right">
+    <div class="header-stats">
+      <div class="stat"><div class="num" id="stat-cats">0</div><div class="lbl">Categories</div></div>
+      <div class="stat"><div class="num" id="stat-tasks">0</div><div class="lbl">Tasks</div></div>
+      <div class="stat"><div class="num" id="stat-done">0</div><div class="lbl">Done</div></div>
+      <div class="stat"><div class="num" id="stat-pct">0%</div><div class="lbl">Complete</div></div>
+    </div>
+    <div class="user-info" id="user-info" style="display:none;">
+      <span class="user-email" id="user-email-display"></span>
+      <button class="btn btn-ghost btn-sm" id="signout-btn">Sign Out</button>
+    </div>
   </div>
 </header>
 
 <main>
   <div class="add-cat-bar">
     <input type="text" id="new-cat-input" placeholder="New category name…" maxlength="80" />
-    <button class="btn btn-primary" onclick="addCategory()">+ Add Category</button>
+    <button class="btn btn-primary" id="add-cat-btn">+ Add Category</button>
   </div>
   <div id="categories-list"></div>
   <div class="empty" id="empty-state">
@@ -260,15 +381,43 @@
 </main>
 
 <!-- Overlay to close status menu -->
-<div id="overlay" onclick="closeStatusMenu()"></div>
+<div id="overlay"></div>
 <!-- Status menu -->
 <div class="status-menu" id="status-menu" style="display:none;"></div>
+<!-- Save indicator -->
+<div id="save-indicator">✓ Saved</div>
 
-<script>
-  // ── Data ──────────────────────────────────────────────────────────────────
+<script type="module">
+  import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc }
+    from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+           signOut, onAuthStateChanged }
+    from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+
+  // ── Firebase Config ────────────────────────────────────────────────────────
+  // TODO: Replace each value below with your Firebase project credentials.
+  // Find these in: Firebase Console → Project Settings → Your Apps → Web App
+  const firebaseConfig = {
+    apiKey:            "AIzaSyCm5V7AfWZ4nu1goC6rvPFk5i5CJ_DTTKI",
+    authDomain:        "health-8bf9e.firebaseapp.com",
+    projectId:         "health-8bf9e",
+    storageBucket:     "health-8bf9e.firebasestorage.app",
+    messagingSenderId: "337607108367",
+    appId:             "1:337607108367:web:9209c3ec283765a434c07a"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const db   = getFirestore(app);
+  const auth = getAuth(app);
+
+  // ── App State ─────────────────────────────────────────────────────────────
   let categories = [];
-  let nextCatId = 1;
+  let nextCatId  = 1;
   let nextTaskId = 1;
+  let currentUser = null;
+  let authMode    = 'signin'; // 'signin' | 'signup'
 
   const STATUSES = [
     { key: 'not-started', label: 'Not Started', cls: 'status-not-started' },
@@ -285,9 +434,130 @@
     return d.innerHTML;
   }
 
+  // ── Firestore: Load & Save ─────────────────────────────────────────────────
+  async function loadData(uid) {
+    try {
+      const snap = await getDoc(doc(db, 'users', uid));
+      if (snap.exists()) {
+        const data = snap.data();
+        categories = data.categories || [];
+        nextCatId  = data.nextCatId  || 1;
+        nextTaskId = data.nextTaskId || 1;
+        // Recalculate IDs safely in case of data drift
+        if (categories.length) {
+          const maxCat = Math.max(...categories.map(c => c.id));
+          if (maxCat >= nextCatId) nextCatId = maxCat + 1;
+        }
+        const allTasks = categories.flatMap(c => c.tasks || []);
+        if (allTasks.length) {
+          const maxTask = Math.max(...allTasks.map(t => t.id));
+          if (maxTask >= nextTaskId) nextTaskId = maxTask + 1;
+        }
+      }
+    } catch (e) {
+      console.error('Error loading data:', e);
+    }
+    render();
+  }
+
+  let saveTimer = null;
+  async function saveData() {
+    if (!currentUser) return;
+    // Show save indicator
+    const ind = document.getElementById('save-indicator');
+    ind.classList.add('visible');
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => ind.classList.remove('visible'), 1500);
+    try {
+      await setDoc(doc(db, 'users', currentUser.uid), {
+        categories,
+        nextCatId,
+        nextTaskId,
+        updatedAt: new Date().toISOString()
+      });
+    } catch (e) {
+      console.error('Error saving data:', e);
+    }
+  }
+
+  // ── Auth State ────────────────────────────────────────────────────────────
+  onAuthStateChanged(auth, async user => {
+    document.getElementById('loading-screen').style.display = 'none';
+    if (user) {
+      currentUser = user;
+      document.getElementById('auth-screen').style.display  = 'none';
+      document.getElementById('user-info').style.display    = 'flex';
+      document.getElementById('user-email-display').textContent = user.email;
+      await loadData(user.uid);
+    } else {
+      currentUser = null;
+      categories  = [];
+      document.getElementById('auth-screen').style.display = 'flex';
+      document.getElementById('user-info').style.display   = 'none';
+      render();
+    }
+  });
+
+  // ── Auth UI ───────────────────────────────────────────────────────────────
+  async function submitAuth() {
+    const email    = document.getElementById('auth-email').value.trim();
+    const password = document.getElementById('auth-password').value;
+    const errEl    = document.getElementById('auth-error');
+    errEl.textContent = '';
+
+    if (!email || !password) { errEl.textContent = 'Please fill in all fields.'; return; }
+    if (password.length < 6) { errEl.textContent = 'Password must be at least 6 characters.'; return; }
+
+    const btn = document.getElementById('auth-submit-btn');
+    btn.textContent = authMode === 'signup' ? 'Creating account…' : 'Signing in…';
+    btn.disabled = true;
+
+    try {
+      if (authMode === 'signup') {
+        await createUserWithEmailAndPassword(auth, email, password);
+      } else {
+        await signInWithEmailAndPassword(auth, email, password);
+      }
+    } catch (e) {
+      const msgs = {
+        'auth/user-not-found':       'No account found with this email.',
+        'auth/wrong-password':       'Incorrect password.',
+        'auth/invalid-credential':   'Incorrect email or password.',
+        'auth/email-already-in-use': 'An account with this email already exists.',
+        'auth/invalid-email':        'Please enter a valid email address.',
+        'auth/too-many-requests':    'Too many attempts. Please try again later.',
+        'auth/network-request-failed': 'Network error. Check your connection.',
+      };
+      errEl.textContent = msgs[e.code] || 'Something went wrong. Please try again.';
+      btn.textContent = authMode === 'signup' ? 'Sign Up' : 'Sign In';
+      btn.disabled = false;
+    }
+  }
+
+  function toggleAuthMode() {
+    authMode = authMode === 'signin' ? 'signup' : 'signin';
+    const isSignUp = authMode === 'signup';
+    document.getElementById('auth-subtitle').textContent    = isSignUp ? 'Create your account' : 'Sign in to your account';
+    document.getElementById('auth-submit-btn').textContent  = isSignUp ? 'Sign Up' : 'Sign In';
+    document.getElementById('auth-submit-btn').disabled     = false;
+    document.getElementById('auth-switch-text').textContent = isSignUp ? 'Already have an account?' : "Don't have an account?";
+    document.getElementById('auth-switch-link').textContent = isSignUp ? ' Sign In' : ' Sign Up';
+    document.getElementById('auth-error').textContent       = '';
+  }
+
+  // Auth event listeners
+  document.getElementById('auth-submit-btn').addEventListener('click', submitAuth);
+  document.getElementById('auth-switch-link').addEventListener('click', toggleAuthMode);
+  ['auth-email', 'auth-password'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', e => {
+      if (e.key === 'Enter') submitAuth();
+    });
+  });
+  document.getElementById('signout-btn').addEventListener('click', () => signOut(auth));
+
   // ── Render ────────────────────────────────────────────────────────────────
   function render() {
-    const list = document.getElementById('categories-list');
+    const list  = document.getElementById('categories-list');
     const empty = document.getElementById('empty-state');
     list.innerHTML = '';
     empty.style.display = categories.length ? 'none' : 'block';
@@ -303,7 +573,7 @@
 
       card.innerHTML = `
         <div class="cat-header">
-          <button class="cat-toggle ${cat.open ? 'open' : ''}" onclick="toggleCat(${cat.id})" title="Expand/Collapse">▶</button>
+          <button class="cat-toggle ${cat.open ? 'open' : ''}" data-action="toggle-cat" data-cat="${cat.id}" title="Expand/Collapse">▶</button>
           <div class="cat-name-wrap">
             <span class="cat-name" id="cat-name-${cat.id}">${esc(cat.name)}</span>
             <span class="cat-count">${done}/${total} done</span>
@@ -313,16 +583,15 @@
           </div>
           <span class="progress-pct">${pct}%</span>
           <div class="cat-actions">
-            <button class="btn-icon" onclick="editCatName(${cat.id})" title="Rename">✏️</button>
-            <button class="btn-icon" onclick="deleteCategory(${cat.id})" title="Delete">🗑️</button>
+            <button class="btn-icon" data-action="edit-cat" data-cat="${cat.id}" title="Rename">✏️</button>
+            <button class="btn-icon" data-action="delete-cat" data-cat="${cat.id}" title="Delete">🗑️</button>
           </div>
         </div>
         <div class="task-list ${cat.open ? '' : 'collapsed'}" id="tasks-${cat.id}">
           ${cat.tasks.map(t => taskRowHTML(cat.id, t)).join('')}
           <div class="add-task-row">
-            <input class="add-task-input" id="new-task-${cat.id}" placeholder="Add a task…" maxlength="120"
-              onkeydown="if(event.key==='Enter') addTask(${cat.id})" />
-            <button class="btn btn-primary btn-sm" onclick="addTask(${cat.id})">Add</button>
+            <input class="add-task-input" id="new-task-${cat.id}" placeholder="Add a task…" maxlength="120" data-catid="${cat.id}" />
+            <button class="btn btn-primary btn-sm" data-action="add-task" data-cat="${cat.id}">Add</button>
           </div>
         </div>
       `;
@@ -337,14 +606,14 @@
     return `
       <div class="task-row" id="task-row-${t.id}">
         <div class="task-check ${t.status === 'done' ? 'done' : ''}"
-          onclick="quickToggle(${catId}, ${t.id})" title="Toggle done"></div>
+          data-action="quick-toggle" data-cat="${catId}" data-task="${t.id}" title="Toggle done"></div>
         <span class="task-name ${t.status === 'done' ? 'done' : ''}"
           id="task-name-${t.id}">${esc(t.name)}</span>
         <button class="status-badge ${si.cls}"
-          onclick="openStatusMenu(event, ${catId}, ${t.id})">${si.label}</button>
+          data-action="open-status" data-cat="${catId}" data-task="${t.id}">${si.label}</button>
         <div class="task-actions">
-          <button class="btn-icon" onclick="editTaskName(${catId}, ${t.id})" title="Rename">✏️</button>
-          <button class="btn-icon" onclick="deleteTask(${catId}, ${t.id})" title="Delete">🗑️</button>
+          <button class="btn-icon" data-action="edit-task" data-cat="${catId}" data-task="${t.id}" title="Rename">✏️</button>
+          <button class="btn-icon" data-action="delete-task" data-cat="${catId}" data-task="${t.id}" title="Delete">🗑️</button>
         </div>
       </div>`;
   }
@@ -359,91 +628,127 @@
       ? Math.round(done / allTasks.length * 100) + '%' : '0%';
   }
 
+  // ── Event delegation ──────────────────────────────────────────────────────
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-action]');
+    if (!el) return;
+    const action  = el.dataset.action;
+    const catId   = parseInt(el.dataset.cat);
+    const taskId  = parseInt(el.dataset.task);
+
+    if (action === 'toggle-cat')   { toggleCat(catId); }
+    if (action === 'edit-cat')     { editCatName(catId); }
+    if (action === 'delete-cat')   { deleteCategory(catId); }
+    if (action === 'add-task')     { addTask(catId); }
+    if (action === 'quick-toggle') { quickToggle(catId, taskId); }
+    if (action === 'open-status')  { openStatusMenu(e, catId, taskId); }
+    if (action === 'edit-task')    { editTaskName(catId, taskId); }
+    if (action === 'delete-task')  { deleteTask(catId, taskId); }
+  });
+
+  // Enter key on add-task inputs
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.target.classList.contains('add-task-input')) {
+      addTask(parseInt(e.target.dataset.catid));
+    }
+  });
+
+  // Add category button & enter key
+  document.getElementById('add-cat-btn').addEventListener('click', addCategory);
+  document.getElementById('new-cat-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') addCategory();
+  });
+
   // ── Category ops ──────────────────────────────────────────────────────────
   function addCategory() {
-    const inp = document.getElementById('new-cat-input');
+    const inp  = document.getElementById('new-cat-input');
     const name = inp.value.trim();
     if (!name) { inp.focus(); return; }
     categories.push({ id: nextCatId++, name, tasks: [], open: true });
     inp.value = '';
     render();
+    saveData();
     inp.focus();
   }
-  document.getElementById('new-cat-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') addCategory();
-  });
 
   function toggleCat(id) {
     const cat = categories.find(c => c.id === id);
-    if (cat) { cat.open = !cat.open; render(); }
+    if (cat) { cat.open = !cat.open; render(); saveData(); }
   }
 
   function deleteCategory(id) {
     if (!confirm('Delete this category and all its tasks?')) return;
     categories = categories.filter(c => c.id !== id);
     render();
+    saveData();
   }
 
   function editCatName(id) {
-    const cat = categories.find(c => c.id === id);
+    const cat  = categories.find(c => c.id === id);
     const span = document.getElementById(`cat-name-${id}`);
-    const inp = document.createElement('input');
+    const inp  = document.createElement('input');
     inp.className = 'cat-name-input';
     inp.value = cat.name;
     span.replaceWith(inp);
-    inp.focus();
-    inp.select();
+    inp.focus(); inp.select();
     const save = () => {
       const v = inp.value.trim();
       if (v) cat.name = v;
-      render();
+      render(); saveData();
     };
     inp.addEventListener('blur', save);
-    inp.addEventListener('keydown', e => { if (e.key === 'Enter') inp.blur(); if (e.key === 'Escape') { inp.value = cat.name; inp.blur(); } });
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Enter') inp.blur();
+      if (e.key === 'Escape') { inp.value = cat.name; inp.blur(); }
+    });
   }
 
   // ── Task ops ──────────────────────────────────────────────────────────────
   function addTask(catId) {
-    const inp = document.getElementById(`new-task-${catId}`);
+    const inp  = document.getElementById(`new-task-${catId}`);
     const name = inp.value.trim();
     if (!name) { inp.focus(); return; }
     const cat = categories.find(c => c.id === catId);
     cat.tasks.push({ id: nextTaskId++, name, status: 'not-started' });
     inp.value = '';
     render();
-    document.getElementById(`new-task-${catId}`).focus();
+    saveData();
+    const el = document.getElementById(`new-task-${catId}`);
+    if (el) el.focus();
   }
 
   function deleteTask(catId, taskId) {
     const cat = categories.find(c => c.id === catId);
     cat.tasks = cat.tasks.filter(t => t.id !== taskId);
-    render();
+    render(); saveData();
   }
 
   function quickToggle(catId, taskId) {
-    const cat = categories.find(c => c.id === catId);
+    const cat  = categories.find(c => c.id === catId);
     const task = cat.tasks.find(t => t.id === taskId);
     task.status = task.status === 'done' ? 'not-started' : 'done';
-    render();
+    render(); saveData();
   }
 
   function editTaskName(catId, taskId) {
-    const cat = categories.find(c => c.id === catId);
+    const cat  = categories.find(c => c.id === catId);
     const task = cat.tasks.find(t => t.id === taskId);
     const span = document.getElementById(`task-name-${taskId}`);
-    const inp = document.createElement('input');
+    const inp  = document.createElement('input');
     inp.className = 'task-name-input';
     inp.value = task.name;
     span.replaceWith(inp);
-    inp.focus();
-    inp.select();
+    inp.focus(); inp.select();
     const save = () => {
       const v = inp.value.trim();
       if (v) task.name = v;
-      render();
+      render(); saveData();
     };
     inp.addEventListener('blur', save);
-    inp.addEventListener('keydown', e => { if (e.key === 'Enter') inp.blur(); if (e.key === 'Escape') { inp.value = task.name; inp.blur(); } });
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Enter') inp.blur();
+      if (e.key === 'Escape') { inp.value = task.name; inp.blur(); }
+    });
   }
 
   // ── Status menu ───────────────────────────────────────────────────────────
@@ -454,7 +759,7 @@
     _menuCatId = catId; _menuTaskId = taskId;
     const menu = document.getElementById('status-menu');
     menu.innerHTML = STATUSES.map(s =>
-      `<button onclick="setStatus('${s.key}')" class="${s.cls}">${s.label}</button>`
+      `<button data-action="set-status" data-key="${s.key}" class="${s.cls}">${s.label}</button>`
     ).join('');
     const rect = e.target.getBoundingClientRect();
     menu.style.display = 'block';
@@ -463,13 +768,16 @@
     document.getElementById('overlay').classList.add('visible');
   }
 
-  function setStatus(key) {
-    const cat = categories.find(c => c.id === _menuCatId);
+  // Status menu click
+  document.getElementById('status-menu').addEventListener('click', e => {
+    const btn = e.target.closest('[data-action="set-status"]');
+    if (!btn) return;
+    const cat  = categories.find(c => c.id === _menuCatId);
     const task = cat.tasks.find(t => t.id === _menuTaskId);
-    task.status = key;
+    task.status = btn.dataset.key;
     closeStatusMenu();
-    render();
-  }
+    render(); saveData();
+  });
 
   function closeStatusMenu() {
     document.getElementById('status-menu').style.display = 'none';
@@ -477,45 +785,10 @@
     _menuCatId = _menuTaskId = null;
   }
 
+  document.getElementById('overlay').addEventListener('click', closeStatusMenu);
+
   // ── Init ──────────────────────────────────────────────────────────────────
   render();
 </script>
-
-  <!-- Add before closing </body> tag -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs } 
-    from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
-  import { getAuth, signInWithEmailAndPassword } 
-    from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyCm5V7AfWZ4nu1goC6rvPFk5i5CJ_DTTKI",
-    authDomain: "health-8bf9e.firebaseapp.com",
-    projectId: "health-8bf9e",
-    storageBucket: "health-8bf9e.firebasestorage.app",
-    messagingSenderId: "337607108367",
-    appId: "1:337607108367:web:9209c3ec283765a434c07a"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const auth = getAuth(app);
-
-  // Example: Save data
-  async function saveData() {
-    await addDoc(collection(db, "entries"), {
-      content: "Hello World",
-      createdAt: new Date()
-    });
-  }
-
-  // Example: Read data
-  async function loadData() {
-    const snapshot = await getDocs(collection(db, "entries"));
-    snapshot.forEach(doc => console.log(doc.data()));
-  }
-</script>
-  
 </body>
 </html>

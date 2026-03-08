@@ -132,21 +132,210 @@
     /* ── Main layout ── */
     main { max-width: 860px; margin: 0 auto; padding: 32px 20px 0; }
 
-    /* ── Add category bar ── */
-    .add-cat-bar {
-      display: flex; gap: 10px; margin-bottom: 28px;
-    }
-    .add-cat-bar input {
-      flex: 1;
-      padding: 10px 14px;
+    /* ── Category menu spacing ── */
+
+    /* ── Horizontal Category Menu ── */
+    .cat-menu-wrap {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      background: var(--surface);
       border: 1.5px solid var(--border);
       border-radius: var(--radius);
-      font-size: 0.95rem;
-      outline: none;
-      transition: border-color 0.15s;
-      background: var(--surface);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 0;
     }
-    .add-cat-bar input:focus { border-color: var(--accent); }
+    .cat-tab {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      padding: 14px 10px 12px;
+      border: none;
+      border-right: 1.5px solid var(--border);
+      background: #fafbff;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      position: relative;
+      min-width: 0;
+    }
+    .cat-tab:last-child { border-right: none; }
+    .cat-tab:hover { background: var(--accent-light); }
+    .cat-tab.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .cat-tab-name {
+      font-weight: 700;
+      font-size: 0.88rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 130px;
+      color: var(--text);
+    }
+    .cat-tab.active .cat-tab-name { color: #fff; }
+    .cat-tab-meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .cat-tab.active .cat-tab-meta { color: rgba(255,255,255,0.75); }
+    .cat-tab-pct {
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    .cat-tab-bar {
+      width: 100%;
+      height: 3px;
+      background: rgba(0,0,0,0.08);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+    .cat-tab.active .cat-tab-bar { background: rgba(255,255,255,0.3); }
+    .cat-tab-progress {
+      height: 100%;
+      background: var(--green);
+      border-radius: 2px;
+      transition: width 0.35s;
+    }
+    .cat-tab.active .cat-tab-progress { background: rgba(255,255,255,0.85); }
+
+    /* ── Active panel ── */
+    .cat-panel {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 var(--radius) var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      overflow: hidden;
+      display: flex;
+      min-height: 200px;
+    }
+
+    /* ── Subcategory sidebar (vertical) ── */
+    .subcat-sidebar {
+      width: 200px;
+      flex-shrink: 0;
+      background: #f8f9ff;
+      border-right: 1.5px solid var(--border);
+      display: flex;
+      flex-direction: column;
+    }
+    .subcat-sidebar-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--muted);
+      padding: 12px 14px 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .subcat-list {
+      flex: 1;
+      overflow-y: auto;
+    }
+    .subcat-row {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.1s;
+    }
+    .subcat-row:last-child { border-bottom: none; }
+    .subcat-row:hover { background: var(--accent-light); }
+    .subcat-row.active {
+      background: var(--accent);
+    }
+    .subcat-row-btn {
+      flex: 1;
+      text-align: left;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px 14px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    .subcat-row.active .subcat-row-btn { color: #fff; }
+    .subcat-row-count {
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: rgba(0,0,0,0.07);
+      border-radius: 20px;
+      padding: 1px 7px;
+      flex-shrink: 0;
+    }
+    .subcat-row.active .subcat-row-count { background: rgba(255,255,255,0.25); color: #fff; }
+    .subcat-row-actions {
+      display: none;
+      gap: 1px;
+      padding-right: 6px;
+    }
+    .subcat-row:hover .subcat-row-actions { display: flex; }
+    .subcat-row.active .subcat-row-actions { display: flex; }
+    .subcat-rename-btn, .subcat-delete-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: 0.75rem; padding: 3px 4px; border-radius: 4px;
+      color: var(--muted); transition: background 0.1s, color 0.1s;
+    }
+    .subcat-row.active .subcat-rename-btn,
+    .subcat-row.active .subcat-delete-btn { color: rgba(255,255,255,0.7); }
+    .subcat-rename-btn:hover { color: var(--accent); background: var(--accent-light); }
+    .subcat-delete-btn:hover { color: var(--danger); background: var(--danger-light); }
+    .subcat-row.active .subcat-rename-btn:hover { color: #fff; background: rgba(255,255,255,0.2); }
+    .subcat-row.active .subcat-delete-btn:hover  { color: #fca5a5; background: rgba(255,255,255,0.15); }
+
+    .subcat-add-row {
+      padding: 10px 14px;
+      border-top: 1px solid var(--border);
+    }
+    .subcat-add-btn {
+      width: 100%;
+      padding: 7px 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-light);
+      border: 1.5px dashed #a5b4fc;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: background 0.12s;
+      text-align: center;
+    }
+    .subcat-add-btn:hover { background: #e0e7ff; }
+
+    /* ── Task content area ── */
+    .subcat-content {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .subcat-empty-prompt {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+      gap: 10px;
+    }
+    .subcat-empty-prompt .icon { font-size: 2rem; }
 
     /* ── Buttons ── */
     .btn {
@@ -177,52 +366,16 @@
     }
     .btn-icon:hover { background: var(--bg); color: var(--text); }
 
-    /* ── Category card ── */
-    .category {
-      background: var(--surface);
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius);
-      margin-bottom: 20px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-    .cat-header {
-      display: flex; align-items: center; gap: 10px;
-      padding: 14px 18px;
-      border-bottom: 1px solid var(--border);
-      background: #fafbff;
-    }
-    .cat-toggle {
-      background: none; border: none; cursor: pointer;
-      color: var(--muted); font-size: 0.85rem; padding: 2px 4px;
-      transition: transform 0.2s;
-    }
-    .cat-toggle.open { transform: rotate(90deg); }
-    .cat-name-wrap { flex: 1; display: flex; align-items: center; gap: 8px; }
-    .cat-name { font-weight: 700; font-size: 1rem; }
+    /* cat-name-input for inline rename in panel header */
     .cat-name-input {
       font-weight: 700; font-size: 1rem;
       border: 1.5px solid var(--accent);
       border-radius: 6px; padding: 3px 8px;
       outline: none; width: 200px;
     }
-    .cat-count {
-      font-size: 0.78rem; color: var(--muted);
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 20px; padding: 2px 10px;
-    }
-    .progress-bar-wrap {
-      flex: 1; max-width: 140px;
-      background: var(--border); border-radius: 20px; height: 6px;
-      overflow: hidden;
-    }
-    .progress-bar { height: 100%; border-radius: 20px; background: var(--green); transition: width 0.35s; }
-    .progress-pct { font-size: 0.78rem; color: var(--muted); min-width: 34px; text-align: right; }
-    .cat-actions { display: flex; gap: 4px; }
 
     /* ── Task list ── */
     .task-list { padding: 4px 0 8px; }
-    .task-list.collapsed { display: none; }
 
     .task-row {
       display: flex; align-items: center; gap: 10px;
@@ -547,14 +700,10 @@
 </header>
 
 <main>
-  <div class="add-cat-bar">
-    <input type="text" id="new-cat-input" placeholder="New category name…" maxlength="80" />
-    <button class="btn btn-primary" id="add-cat-btn">+ Add Category</button>
-  </div>
   <div id="categories-list"></div>
-  <div class="empty" id="empty-state">
+  <div class="empty" id="empty-state" style="display:none;">
     <div class="icon">📋</div>
-    Add a category above to get started.
+    Loading your categories…
   </div>
 </main>
 
@@ -641,11 +790,17 @@
   const auth = getAuth(app);
 
   // ── App State ─────────────────────────────────────────────────────────────
-  let categories  = [];
-  let nextCatId   = 1;
-  let nextTaskId  = 1;
-  let currentUser = null;
-  let authMode    = 'signin';
+  let categories    = [];
+  let nextCatId     = 1;
+  let nextTaskId    = 1;
+  let nextSubcatId  = 1;
+  let currentUser   = null;
+  let authMode      = 'signin';
+  let activeCatId   = null;
+  let activeSubcatId = null; // null = "All", or a subcategory id
+
+  const MAX_CATS = 5;
+  const FIXED_CATEGORIES = ['Goals', 'Lifestyle', 'Consultations', 'Adaptations', 'Stress Mgmt'];
 
   const STATUSES = [
     { key: 'not-started', label: 'Not Started', cls: 'status-not-started' },
@@ -672,9 +827,10 @@
       const snap = await getDoc(doc(db, 'users', uid));
       if (snap.exists()) {
         const data = snap.data();
-        categories = data.categories || [];
-        nextCatId  = data.nextCatId  || 1;
-        nextTaskId = data.nextTaskId || 1;
+        categories   = data.categories   || [];
+        nextCatId    = data.nextCatId    || 1;
+        nextTaskId   = data.nextTaskId   || 1;
+        nextSubcatId = data.nextSubcatId || 1;
         if (categories.length) {
           const maxCat = Math.max(...categories.map(c => c.id));
           if (maxCat >= nextCatId) nextCatId = maxCat + 1;
@@ -684,10 +840,35 @@
           const maxTask = Math.max(...allTasks.map(t => t.id));
           if (maxTask >= nextTaskId) nextTaskId = maxTask + 1;
         }
+        const allSubcats = categories.flatMap(c => c.subcategories || []);
+        if (allSubcats.length) {
+          const maxSub = Math.max(...allSubcats.map(s => s.id));
+          if (maxSub >= nextSubcatId) nextSubcatId = maxSub + 1;
+        }
       }
     } catch (e) {
       console.error('Error loading data:', e);
     }
+
+    // If no categories yet, seed the fixed five
+    if (!categories.length) {
+      categories = FIXED_CATEGORIES.map(name => ({
+        id: nextCatId++, name, tasks: [], subcategories: [], open: true
+      }));
+      await saveData();
+    }
+
+    // Ensure all five fixed categories always exist (by name), preserving tasks
+    FIXED_CATEGORIES.forEach(name => {
+      if (!categories.find(c => c.name === name)) {
+        categories.push({ id: nextCatId++, name, tasks: [], subcategories: [], open: true });
+      }
+    });
+    // Keep only the five fixed categories
+    categories = FIXED_CATEGORIES.map(name => categories.find(c => c.name === name));
+    // Ensure every category has a subcategories array
+    categories.forEach(c => { if (!c.subcategories) c.subcategories = []; });
+
     render();
   }
 
@@ -703,6 +884,7 @@
         categories,
         nextCatId,
         nextTaskId,
+        nextSubcatId,
         updatedAt: new Date().toISOString()
       });
     } catch (e) {
@@ -789,44 +971,144 @@
     const list  = document.getElementById('categories-list');
     const empty = document.getElementById('empty-state');
     list.innerHTML = '';
+
     empty.style.display = categories.length ? 'none' : 'block';
+    if (!categories.length) { updateStats(); return; }
 
+    // Ensure activeCatId is valid
+    if (!categories.find(c => c.id === activeCatId)) {
+      activeCatId    = categories[0].id;
+      activeSubcatId = null;
+    }
+
+    // ── Top category tab menu ──
+    const menuWrap = document.createElement('div');
+    menuWrap.className = 'cat-menu-wrap';
     categories.forEach(cat => {
-      const total = cat.tasks.length;
-      const done  = cat.tasks.filter(t => t.status === 'done').length;
-      const pct   = total ? Math.round(done / total * 100) : 0;
-
-      const card = document.createElement('div');
-      card.className = 'category';
-      card.id = `cat-${cat.id}`;
-
-      card.innerHTML = `
-        <div class="cat-header">
-          <button class="cat-toggle ${cat.open ? 'open' : ''}" data-action="toggle-cat" data-cat="${cat.id}" title="Expand/Collapse">▶</button>
-          <div class="cat-name-wrap">
-            <span class="cat-name" id="cat-name-${cat.id}">${esc(cat.name)}</span>
-            <span class="cat-count">${done}/${total} done</span>
-          </div>
-          <div class="progress-bar-wrap">
-            <div class="progress-bar" style="width:${pct}%"></div>
-          </div>
-          <span class="progress-pct">${pct}%</span>
-          <div class="cat-actions">
-            <button class="btn-icon" data-action="edit-cat" data-cat="${cat.id}" title="Rename">✏️</button>
-            <button class="btn-icon" data-action="delete-cat" data-cat="${cat.id}" title="Delete">🗑️</button>
-          </div>
-        </div>
-        <div class="task-list ${cat.open ? '' : 'collapsed'}" id="tasks-${cat.id}">
-          ${cat.tasks.map(t => taskRowHTML(cat.id, t)).join('')}
-          <div class="add-task-row">
-            <input class="add-task-input" id="new-task-${cat.id}" placeholder="Add a task…" maxlength="120" data-catid="${cat.id}" />
-            <button class="btn btn-primary btn-sm" data-action="add-task" data-cat="${cat.id}">Add</button>
-          </div>
-        </div>
-      `;
-      list.appendChild(card);
+      const total    = cat.tasks.length;
+      const done     = cat.tasks.filter(t => t.status === 'done').length;
+      const pct      = total ? Math.round(done / total * 100) : 0;
+      const isActive = cat.id === activeCatId;
+      const tab = document.createElement('button');
+      tab.className      = 'cat-tab' + (isActive ? ' active' : '');
+      tab.dataset.action = 'select-tab';
+      tab.dataset.cat    = cat.id;
+      tab.innerHTML = `
+        <span class="cat-tab-name">${esc(cat.name)}</span>
+        <span class="cat-tab-meta">
+          <span>${done}/${total}</span>
+          <span class="cat-tab-pct">${pct}%</span>
+        </span>
+        <div class="cat-tab-bar">
+          <div class="cat-tab-progress" style="width:${pct}%"></div>
+        </div>`;
+      menuWrap.appendChild(tab);
     });
+    list.appendChild(menuWrap);
 
+    // ── Active category panel ──
+    const cat = categories.find(c => c.id === activeCatId);
+    if (!cat) { updateStats(); return; }
+
+    const subcats = cat.subcategories || [];
+
+    // Validate activeSubcatId
+    if (activeSubcatId !== null && !subcats.find(s => s.id === activeSubcatId)) {
+      activeSubcatId = subcats.length ? subcats[0].id : null;
+    }
+    // Auto-select first subcategory if none selected and subcats exist
+    if (activeSubcatId === null && subcats.length > 0) {
+      activeSubcatId = subcats[0].id;
+    }
+
+    const panel = document.createElement('div');
+    panel.className = 'cat-panel';
+    panel.id = `cat-${cat.id}`;
+
+    // ── Left: Subcategory sidebar ──
+    const sidebar = document.createElement('div');
+    sidebar.className = 'subcat-sidebar';
+
+    const sidebarTitle = document.createElement('div');
+    sidebarTitle.className = 'subcat-sidebar-title';
+    sidebarTitle.textContent = 'Subcategories';
+    sidebar.appendChild(sidebarTitle);
+
+    const subcatList = document.createElement('div');
+    subcatList.className = 'subcat-list';
+
+    subcats.forEach(sub => {
+      const subTaskCount = cat.tasks.filter(t => t.subcatId === sub.id).length;
+      const isActiveSub  = activeSubcatId === sub.id;
+      const row = document.createElement('div');
+      row.className = 'subcat-row' + (isActiveSub ? ' active' : '');
+      row.innerHTML = `
+        <button class="subcat-row-btn" data-action="select-subcat" data-cat="${cat.id}" data-subcat="${sub.id}">
+          <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(sub.name)}</span>
+          <span class="subcat-row-count">${subTaskCount}</span>
+        </button>
+        <div class="subcat-row-actions">
+          <button class="subcat-rename-btn" data-action="rename-subcat" data-cat="${cat.id}" data-subcat="${sub.id}" title="Rename">✏️</button>
+          <button class="subcat-delete-btn" data-action="delete-subcat" data-cat="${cat.id}" data-subcat="${sub.id}" title="Delete">🗑️</button>
+        </div>`;
+      subcatList.appendChild(row);
+    });
+    sidebar.appendChild(subcatList);
+
+    // Add subcategory button at bottom of sidebar
+    const addSubRow = document.createElement('div');
+    addSubRow.className = 'subcat-add-row';
+    const addSubBtn = document.createElement('button');
+    addSubBtn.className      = 'subcat-add-btn';
+    addSubBtn.dataset.action = 'add-subcat';
+    addSubBtn.dataset.cat    = cat.id;
+    addSubBtn.textContent    = '+ Add Subcategory';
+    addSubRow.appendChild(addSubBtn);
+    sidebar.appendChild(addSubRow);
+
+    panel.appendChild(sidebar);
+
+    // ── Right: Task content area ──
+    const content = document.createElement('div');
+    content.className = 'subcat-content';
+
+    if (subcats.length === 0) {
+      // No subcategories yet — prompt user to create one
+      content.innerHTML = `
+        <div class="subcat-empty-prompt">
+          <div class="icon">📂</div>
+          <strong>No subcategories yet</strong>
+          <span>Add a subcategory on the left to start tracking tasks.</span>
+        </div>`;
+    } else if (activeSubcatId === null) {
+      content.innerHTML = `
+        <div class="subcat-empty-prompt">
+          <div class="icon">👈</div>
+          <span>Select a subcategory to view its tasks.</span>
+        </div>`;
+    } else {
+      const activeSub    = subcats.find(s => s.id === activeSubcatId);
+      const visibleTasks = cat.tasks.filter(t => t.subcatId === activeSubcatId);
+
+      const taskListDiv = document.createElement('div');
+      taskListDiv.className = 'task-list';
+      taskListDiv.id        = `tasks-${cat.id}`;
+      taskListDiv.innerHTML = visibleTasks.map(t => taskRowHTML(cat.id, t)).join('');
+
+      // Add task row
+      const addRow = document.createElement('div');
+      addRow.className = 'add-task-row';
+      addRow.innerHTML = `
+        <input class="add-task-input" id="new-task-${cat.id}"
+          placeholder="Add a task to ${esc(activeSub.name)}…" maxlength="120"
+          data-catid="${cat.id}" data-subcatid="${activeSubcatId}" />
+        <button class="btn btn-primary btn-sm" data-action="add-task" data-cat="${cat.id}">Add</button>`;
+      taskListDiv.appendChild(addRow);
+      content.appendChild(taskListDiv);
+    }
+
+    panel.appendChild(content);
+    list.appendChild(panel);
     updateStats();
   }
 
@@ -869,10 +1151,12 @@
     const catId   = parseInt(el.dataset.cat);
     const taskId  = parseInt(el.dataset.task);
 
-    if (action === 'toggle-cat')   { toggleCat(catId); }
-    if (action === 'edit-cat')     { editCatName(catId); }
-    if (action === 'delete-cat')   { deleteCategory(catId); }
-    if (action === 'add-task')     { addTask(catId); }
+    if (action === 'select-tab')      { selectTab(catId); }
+    if (action === 'select-subcat')   { selectSubcat(catId, el.dataset.subcat); }
+    if (action === 'add-subcat')      { addSubcategory(catId); }
+    if (action === 'rename-subcat')   { renameSubcategory(catId, parseInt(el.dataset.subcat)); }
+    if (action === 'delete-subcat')   { deleteSubcategory(catId, parseInt(el.dataset.subcat)); }
+    if (action === 'add-task')        { addTask(catId); }
     if (action === 'quick-toggle') { quickToggle(catId, taskId); }
     if (action === 'open-status')  { openStatusMenu(e, catId, taskId); }
     if (action === 'edit-task')    { editTaskName(catId, taskId); }
@@ -889,30 +1173,57 @@
     }
   });
 
-  document.getElementById('add-cat-btn').addEventListener('click', addCategory);
-  document.getElementById('new-cat-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') addCategory();
-  });
-
   // ── Category ops ──────────────────────────────────────────────────────────
-  function addCategory() {
-    const inp  = document.getElementById('new-cat-input');
-    const name = inp.value.trim();
-    if (!name) { inp.focus(); return; }
-    categories.push({ id: nextCatId++, name, tasks: [], open: true });
-    inp.value = '';
-    render(); saveData();
-    inp.focus();
+
+  function selectTab(id) {
+    activeCatId    = id;
+    activeSubcatId = null;
+    render();
   }
 
-  function toggleCat(id) {
-    const cat = categories.find(c => c.id === id);
-    if (cat) { cat.open = !cat.open; render(); saveData(); }
+  function selectSubcat(catId, subcatId) {
+    activeCatId    = catId;
+    activeSubcatId = subcatId === '' ? null : parseInt(subcatId);
+    render();
+  }
+
+  function addSubcategory(catId) {
+    const name = prompt('Enter subcategory name:');
+    if (!name || !name.trim()) return;
+    const cat = categories.find(c => c.id === catId);
+    if (!cat.subcategories) cat.subcategories = [];
+    const newSub = { id: nextSubcatId++, name: name.trim() };
+    cat.subcategories.push(newSub);
+    activeSubcatId = newSub.id;
+    render(); saveData();
+  }
+
+  function renameSubcategory(catId, subcatId) {
+    const cat = categories.find(c => c.id === catId);
+    const sub = cat.subcategories.find(s => s.id === subcatId);
+    const name = prompt('Rename subcategory:', sub.name);
+    if (!name || !name.trim()) return;
+    sub.name = name.trim();
+    render(); saveData();
+  }
+
+  function deleteSubcategory(catId, subcatId) {
+    if (!confirm('Delete this subcategory and all its tasks?')) return;
+    const cat = categories.find(c => c.id === catId);
+    cat.subcategories = cat.subcategories.filter(s => s.id !== subcatId);
+    cat.tasks = cat.tasks.filter(t => t.subcatId !== subcatId);
+    if (activeSubcatId === subcatId) {
+      activeSubcatId = cat.subcategories.length ? cat.subcategories[0].id : null;
+    }
+    render(); saveData();
   }
 
   function deleteCategory(id) {
     if (!confirm('Delete this category and all its tasks?')) return;
     categories = categories.filter(c => c.id !== id);
+    if (activeCatId === id) {
+      activeCatId = categories.length ? categories[0].id : null;
+    }
     render(); saveData();
   }
 
@@ -938,11 +1249,12 @@
 
   // ── Task ops ──────────────────────────────────────────────────────────────
   function addTask(catId) {
-    const inp  = document.getElementById(`new-task-${catId}`);
-    const name = inp.value.trim();
+    const inp     = document.getElementById(`new-task-${catId}`);
+    const name    = inp.value.trim();
     if (!name) { inp.focus(); return; }
-    const cat = categories.find(c => c.id === catId);
-    cat.tasks.push({ id: nextTaskId++, name, status: 'not-started', notes: '' });
+    const cat     = categories.find(c => c.id === catId);
+    const subcatId = inp.dataset.subcatid ? parseInt(inp.dataset.subcatid) : null;
+    cat.tasks.push({ id: nextTaskId++, name, status: 'not-started', notes: '', subcatId: subcatId || null });
     inp.value = '';
     render(); saveData();
     const el = document.getElementById(`new-task-${catId}`);

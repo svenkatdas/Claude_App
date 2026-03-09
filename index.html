@@ -207,6 +207,85 @@
     }
     .cat-tab.active .cat-tab-progress { background: rgba(255,255,255,0.85); }
 
+    /* ── Tasks in Progress special tab ── */
+    .cat-tab.tip-tab { background: #fffbeb; }
+    .cat-tab.tip-tab:hover { background: #fef3c7; }
+    .cat-tab.tip-tab.active { background: #d97706; }
+    .cat-tab.tip-tab .cat-tab-name { color: #92400e; }
+    .cat-tab.tip-tab.active .cat-tab-name { color: #fff; }
+    .cat-tab.tip-tab .cat-tab-meta { color: #b45309; }
+    .cat-tab.tip-tab.active .cat-tab-meta { color: rgba(255,255,255,0.8); }
+    .cat-tab.tip-tab .cat-tab-bar { background: rgba(0,0,0,0.08); }
+    .cat-tab.tip-tab.active .cat-tab-bar { background: rgba(255,255,255,0.3); }
+    .cat-tab.tip-tab .cat-tab-progress { background: #f59e0b; }
+    .cat-tab.tip-tab.active .cat-tab-progress { background: rgba(255,255,255,0.85); }
+
+    /* ── Tasks in Progress panel ── */
+    .tip-panel {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 var(--radius) var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .tip-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 16px 20px 12px;
+      border-bottom: 1.5px solid var(--border);
+      background: #fffbeb;
+    }
+    .tip-header-icon { font-size: 1.3rem; }
+    .tip-header-title { font-size: 1rem; font-weight: 700; color: #92400e; }
+    .tip-header-count {
+      font-size: 0.78rem; font-weight: 700;
+      background: #fde68a; color: #92400e;
+      border-radius: 20px; padding: 2px 9px;
+    }
+    .tip-empty {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 48px 20px; gap: 10px;
+      color: var(--muted); font-size: 0.92rem; text-align: center;
+    }
+    .tip-empty .icon { font-size: 2.2rem; }
+    .tip-cat-group { border-bottom: 1.5px solid var(--border); }
+    .tip-cat-group:last-child { border-bottom: none; }
+    .tip-cat-label {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 20px 8px;
+      background: #fafbff;
+      border-bottom: 1px solid var(--border);
+    }
+    .tip-cat-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+    }
+    .tip-cat-name {
+      font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      color: var(--accent);
+    }
+    .tip-cat-task-count {
+      font-size: 0.7rem; font-weight: 700;
+      background: var(--accent-light); color: var(--accent);
+      border-radius: 20px; padding: 1px 7px;
+    }
+    .tip-task-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 20px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.1s;
+    }
+    .tip-task-row:last-child { border-bottom: none; }
+    .tip-task-row:hover { background: #fafbff; }
+    .tip-subcat-badge {
+      font-size: 0.7rem; font-weight: 600;
+      background: #f1f5f9; color: #475569;
+      border-radius: 20px; padding: 2px 8px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+
     /* ── Active panel ── */
     .cat-panel {
       background: var(--surface);
@@ -801,6 +880,7 @@
 
   const MAX_CATS = 5;
   const FIXED_CATEGORIES = ['Goals', 'Lifestyle', 'Consultations', 'Adaptations', 'Stress Mgmt'];
+  const TIP_TAB_ID = 'tasks-in-progress'; // Special sentinel for the TIP tab
 
   const STATUSES = [
     { key: 'not-started', label: 'Not Started', cls: 'status-not-started' },
@@ -976,7 +1056,7 @@
     if (!categories.length) { updateStats(); return; }
 
     // Ensure activeCatId is valid
-    if (!categories.find(c => c.id === activeCatId)) {
+    if (activeCatId !== TIP_TAB_ID && !categories.find(c => c.id === activeCatId)) {
       activeCatId    = categories[0].id;
       activeSubcatId = null;
     }
@@ -984,6 +1064,26 @@
     // ── Top category tab menu ──
     const menuWrap = document.createElement('div');
     menuWrap.className = 'cat-menu-wrap';
+
+    // ── Tasks in Progress special tab (first) ──
+    {
+      const tipTotal  = categories.flatMap(c => c.tasks).filter(t => t.status === 'in-progress').length;
+      const isActive  = activeCatId === TIP_TAB_ID;
+      const tab = document.createElement('button');
+      tab.className      = 'cat-tab tip-tab' + (isActive ? ' active' : '');
+      tab.dataset.action = 'select-tab';
+      tab.dataset.cat    = TIP_TAB_ID;
+      tab.innerHTML = `
+        <span class="cat-tab-name">🔄 In Progress</span>
+        <span class="cat-tab-meta">
+          <span>${tipTotal} task${tipTotal !== 1 ? 's' : ''}</span>
+        </span>
+        <div class="cat-tab-bar">
+          <div class="cat-tab-progress" style="width:${tipTotal > 0 ? 100 : 0}%"></div>
+        </div>`;
+      menuWrap.appendChild(tab);
+    }
+
     categories.forEach(cat => {
       const total    = cat.tasks.length;
       const done     = cat.tasks.filter(t => t.status === 'done').length;
@@ -1004,7 +1104,76 @@
         </div>`;
       menuWrap.appendChild(tab);
     });
+
     list.appendChild(menuWrap);
+
+    // ── Tasks in Progress panel ──
+    if (activeCatId === TIP_TAB_ID) {
+      const inProgressGroups = categories.map(cat => ({
+        cat,
+        tasks: cat.tasks.filter(t => t.status === 'in-progress')
+      })).filter(g => g.tasks.length > 0);
+
+      const totalInProgress = inProgressGroups.reduce((sum, g) => sum + g.tasks.length, 0);
+
+      const tipPanel = document.createElement('div');
+      tipPanel.className = 'tip-panel';
+
+      tipPanel.innerHTML = `
+        <div class="tip-header">
+          <span class="tip-header-icon">🔄</span>
+          <span class="tip-header-title">Tasks in Progress</span>
+          <span class="tip-header-count">${totalInProgress} task${totalInProgress !== 1 ? 's' : ''}</span>
+        </div>`;
+
+      if (inProgressGroups.length === 0) {
+        tipPanel.innerHTML += `
+          <div class="tip-empty">
+            <div class="icon">✅</div>
+            <strong>All clear!</strong>
+            <span>No tasks are currently in progress.</span>
+          </div>`;
+      } else {
+        inProgressGroups.forEach(({ cat, tasks }) => {
+          const group = document.createElement('div');
+          group.className = 'tip-cat-group';
+          group.innerHTML = `
+            <div class="tip-cat-label">
+              <div class="tip-cat-dot"></div>
+              <span class="tip-cat-name">${esc(cat.name)}</span>
+              <span class="tip-cat-task-count">${tasks.length}</span>
+            </div>
+            ${tasks.map(t => {
+              const sub = t.subcatId != null
+                ? (cat.subcategories || []).find(s => s.id === t.subcatId)
+                : null;
+              const si       = statusInfo(t.status);
+              const hasNotes = t.notes && t.notes.trim() !== '' && t.notes !== '<br>';
+              return `
+                <div class="tip-task-row">
+                  <div class="task-check"
+                    data-action="quick-toggle" data-cat="${cat.id}" data-task="${t.id}" title="Toggle done"></div>
+                  <span class="task-name" id="task-name-${t.id}">${esc(t.name)}</span>
+                  ${sub ? `<span class="tip-subcat-badge">${esc(sub.name)}</span>` : ''}
+                  <button class="status-badge ${si.cls}"
+                    data-action="open-status" data-cat="${cat.id}" data-task="${t.id}">${si.label}</button>
+                  <div class="task-actions">
+                    <button class="btn-notes ${hasNotes ? 'has-notes' : ''}"
+                      data-action="open-notes" data-cat="${cat.id}" data-task="${t.id}"
+                      title="${hasNotes ? 'View/Edit Notes' : 'Add Notes'}">📝</button>
+                    <button class="btn-icon" data-action="edit-task" data-cat="${cat.id}" data-task="${t.id}" title="Rename">✏️</button>
+                    <button class="btn-icon" data-action="delete-task" data-cat="${cat.id}" data-task="${t.id}" title="Delete">🗑️</button>
+                  </div>
+                </div>`;
+            }).join('')}`;
+          tipPanel.appendChild(group);
+        });
+      }
+
+      list.appendChild(tipPanel);
+      updateStats();
+      return;
+    }
 
     // ── Active category panel ──
     const cat = categories.find(c => c.id === activeCatId);
@@ -1148,10 +1317,10 @@
     const el = e.target.closest('[data-action]');
     if (!el) return;
     const action  = el.dataset.action;
-    const catId   = parseInt(el.dataset.cat);
+    const catId   = el.dataset.cat === TIP_TAB_ID ? TIP_TAB_ID : parseInt(el.dataset.cat);
     const taskId  = parseInt(el.dataset.task);
 
-    if (action === 'select-tab')      { selectTab(catId); }
+    if (action === 'select-tab')      { selectTab(el.dataset.cat); }
     if (action === 'select-subcat')   { selectSubcat(catId, el.dataset.subcat); }
     if (action === 'add-subcat')      { addSubcategory(catId); }
     if (action === 'rename-subcat')   { renameSubcategory(catId, parseInt(el.dataset.subcat)); }
@@ -1176,7 +1345,7 @@
   // ── Category ops ──────────────────────────────────────────────────────────
 
   function selectTab(id) {
-    activeCatId    = id;
+    activeCatId    = id === TIP_TAB_ID ? TIP_TAB_ID : parseInt(id);
     activeSubcatId = null;
     render();
   }

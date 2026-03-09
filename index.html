@@ -104,8 +104,8 @@
 
     /* ── Header ── */
     header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
+      background: #0a2463;
+      border-bottom: 1px solid #071a4a;
       padding: 18px 32px;
       display: flex;
       align-items: center;
@@ -113,18 +113,18 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: var(--shadow);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
     }
-    header h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.3px; }
-    header h1 span { color: var(--accent); }
+    header h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.3px; color: #ffffff; }
+    header h1 span { color: #7eb8f7; }
     .header-right { display: flex; align-items: center; gap: 24px; }
     .header-stats { display: flex; gap: 20px; }
     .stat { text-align: center; }
-    .stat .num { font-size: 1.3rem; font-weight: 700; }
-    .stat .lbl { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat .num { font-size: 1.3rem; font-weight: 700; color: #ffffff; }
+    .stat .lbl { font-size: 0.7rem; color: rgba(255,255,255,0.65); text-transform: uppercase; letter-spacing: 0.5px; }
     .user-info { display: flex; align-items: center; gap: 10px; }
     .user-email {
-      font-size: 0.83rem; color: var(--muted);
+      font-size: 0.83rem; color: rgba(255,255,255,0.75);
       max-width: 180px; overflow: hidden;
       text-overflow: ellipsis; white-space: nowrap;
     }
@@ -139,8 +139,8 @@
       display: flex;
       align-items: stretch;
       gap: 0;
-      background: var(--surface);
-      border: 1.5px solid var(--border);
+      background: #dbeafe;
+      border: 1.5px solid #93c5fd;
       border-radius: var(--radius);
       overflow: hidden;
       box-shadow: var(--shadow);
@@ -155,15 +155,15 @@
       gap: 3px;
       padding: 14px 10px 12px;
       border: none;
-      border-right: 1.5px solid var(--border);
-      background: #fafbff;
+      border-right: 1.5px solid #93c5fd;
+      background: #eff6ff;
       cursor: pointer;
       transition: background 0.15s, color 0.15s;
       position: relative;
       min-width: 0;
     }
     .cat-tab:last-child { border-right: none; }
-    .cat-tab:hover { background: var(--accent-light); }
+    .cat-tab:hover { background: #bfdbfe; }
     .cat-tab.active {
       background: var(--accent);
       color: #fff;
@@ -729,6 +729,174 @@
       cursor: pointer; transition: background 0.15s;
     }
     .btn-notes-save:hover { background: var(--accent-hover); }
+
+    /* ══════════════════════════════════════════
+       ── RESPONSIVE STYLES ──
+    ══════════════════════════════════════════ */
+
+    /* ── Tablet (≤768px) ── */
+    @media (max-width: 768px) {
+      /* Header */
+      header {
+        padding: 12px 16px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      header h1 { font-size: 1.1rem; }
+      .header-right { flex-wrap: wrap; gap: 10px; width: 100%; justify-content: space-between; }
+      .header-stats { gap: 12px; }
+      .stat .num { font-size: 1.1rem; }
+      .stat .lbl { font-size: 0.65rem; }
+      .user-email { max-width: 140px; font-size: 0.78rem; }
+
+      /* Main */
+      main { padding: 20px 12px 0; }
+
+      /* Category tabs — scrollable horizontal strip */
+      .cat-menu-wrap {
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        flex-wrap: nowrap;
+      }
+      .cat-tab {
+        flex: 0 0 auto;
+        min-width: 110px;
+        scroll-snap-align: start;
+        padding: 10px 8px 8px;
+      }
+      .cat-tab-name { font-size: 0.8rem; max-width: 100px; }
+      .cat-tab-meta { font-size: 0.65rem; }
+
+      /* Panel */
+      .cat-panel {
+        flex-direction: column;
+        min-height: unset;
+      }
+
+      /* Subcategory sidebar becomes a horizontal scroll bar on tablet */
+      .subcat-sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1.5px solid var(--border);
+        flex-direction: column;
+      }
+      .subcat-list {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+      }
+      .subcat-row {
+        flex: 0 0 auto;
+        border-bottom: none;
+        border-right: 1px solid var(--border);
+        min-width: 110px;
+      }
+      .subcat-row:last-child { border-right: none; }
+      .subcat-row-btn { padding: 8px 10px; font-size: 0.78rem; }
+      .subcat-add-row { padding: 8px 12px; }
+      .subcat-add-btn { font-size: 0.75rem; padding: 6px 8px; }
+      .subcat-sidebar-title { padding: 8px 12px 6px; }
+
+      /* Tasks */
+      .task-row { padding: 8px 12px; gap: 8px; }
+      .task-name { font-size: 0.88rem; }
+      .status-badge { font-size: 0.68rem; padding: 2px 7px; }
+      .add-task-row { padding: 8px 12px 10px; }
+
+      /* TIP panel */
+      .tip-task-row { padding: 8px 14px; gap: 8px; }
+      .tip-header { padding: 12px 14px 10px; }
+
+      /* Notes modal */
+      #notes-modal { max-width: 100%; margin: 0; border-radius: 10px; }
+      .notes-toolbar { padding: 6px 10px; gap: 1px; }
+      .toolbar-btn { padding: 4px 6px; font-size: 0.82rem; min-width: 24px; }
+      .notes-modal-footer { flex-direction: column; align-items: stretch; gap: 8px; }
+      .notes-footer-actions { justify-content: flex-end; }
+    }
+
+    /* ── Mobile (≤480px) ── */
+    @media (max-width: 480px) {
+      /* Header — stack title and controls */
+      header {
+        padding: 10px 12px;
+      }
+      header h1 { font-size: 1rem; }
+      .header-stats { gap: 8px; }
+      .stat .num { font-size: 1rem; }
+      .stat .lbl { font-size: 0.6rem; }
+
+      /* Hide user email, show only sign out button */
+      .user-email { display: none; }
+
+      /* Auth card */
+      .auth-card { padding: 24px 18px; }
+      .auth-card h2 { font-size: 1.2rem; }
+
+      /* Tabs — smaller */
+      .cat-tab {
+        min-width: 90px;
+        padding: 8px 6px 7px;
+      }
+      .cat-tab-name { font-size: 0.74rem; max-width: 80px; }
+      .cat-tab-meta { gap: 3px; }
+
+      /* Subcategory tabs compact */
+      .subcat-row { min-width: 90px; }
+      .subcat-row-btn { font-size: 0.74rem; padding: 7px 8px; }
+
+      /* Hide subcat actions by default on touch to avoid layout issues */
+      .subcat-row-actions { display: none !important; }
+
+      /* Task rows */
+      .task-row { padding: 8px 10px; gap: 6px; flex-wrap: wrap; }
+      .task-name { font-size: 0.85rem; flex-basis: calc(100% - 30px); }
+      .task-actions { margin-left: auto; }
+      .status-badge { font-size: 0.65rem; padding: 2px 6px; }
+
+      /* Add task row */
+      .add-task-row { flex-wrap: wrap; gap: 6px; padding: 8px 10px 10px; }
+      .add-task-input { min-width: 0; }
+      .add-task-row .btn { padding: 7px 12px; font-size: 0.8rem; }
+
+      /* TIP panel */
+      .tip-task-row { flex-wrap: wrap; padding: 8px 12px; }
+      .tip-subcat-badge { font-size: 0.65rem; padding: 1px 6px; }
+
+      /* Notes modal full screen on small phones */
+      #notes-modal-backdrop { padding: 8px; }
+      #notes-modal { max-height: 96vh; border-radius: 8px; }
+      .notes-modal-header { padding: 12px 14px; }
+      .notes-modal-title { font-size: 0.88rem; }
+      #notes-editor { padding: 14px 14px; font-size: 0.88rem; }
+
+      /* Panel header (category title bar) */
+      .panel-header { padding: 10px 12px; flex-wrap: wrap; gap: 6px; }
+      .panel-header-actions { flex-wrap: wrap; gap: 4px; }
+
+      /* Save indicator */
+      #save-indicator { bottom: 12px; right: 12px; font-size: 0.75rem; padding: 5px 11px; }
+    }
+
+    /* ── Very small (≤360px) ── */
+    @media (max-width: 360px) {
+      .header-stats { gap: 5px; }
+      .stat .num { font-size: 0.95rem; }
+      .cat-tab { min-width: 80px; }
+      .cat-tab-name { font-size: 0.7rem; max-width: 70px; }
+    }
+
+    /* ── Smooth scrollbar styling for horizontal scrollers ── */
+    .cat-menu-wrap::-webkit-scrollbar,
+    .subcat-list::-webkit-scrollbar { height: 4px; }
+    .cat-menu-wrap::-webkit-scrollbar-track,
+    .subcat-list::-webkit-scrollbar-track { background: transparent; }
+    .cat-menu-wrap::-webkit-scrollbar-thumb,
+    .subcat-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
   </style>
 </head>
 <body>

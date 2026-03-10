@@ -130,7 +130,14 @@
     }
 
     /* ── Main layout ── */
-    main { max-width: 860px; margin: 0 auto; padding: 32px 20px 0; }
+    main { max-width: 860px; margin: 0 auto; padding: 20px 20px 0; }
+
+    /* ── Full-width menu section (outside main's max-width constraint) ── */
+    #cat-menu-section {
+      width: 100%;
+      padding: 20px 20px 0;
+      box-sizing: border-box;
+    }
 
     /* ── Category menu spacing ── */
 
@@ -138,13 +145,14 @@
     .cat-menu-wrap {
       display: flex;
       align-items: stretch;
-      gap: 0;
-      background: #dbeafe;
-      border: 1.5px solid #93c5fd;
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
+      gap: 8px;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      overflow: visible;
+      box-shadow: none;
       margin-bottom: 0;
+      flex-wrap: wrap;
     }
     .cat-tab {
       flex: 1;
@@ -153,20 +161,28 @@
       align-items: center;
       justify-content: center;
       gap: 3px;
-      padding: 14px 10px 12px;
+      padding: 14px 14px 12px;
       border: none;
-      border-right: 1.5px solid #93c5fd;
-      background: #eff6ff;
+      border-right: none;
+      background: #0d2d7a;
       cursor: pointer;
-      transition: background 0.15s, color 0.15s;
+      transition: background 0.15s, color 0.15s, transform 0.1s, box-shadow 0.15s;
       position: relative;
       min-width: 0;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 8px rgba(10,36,99,0.18);
     }
     .cat-tab:last-child { border-right: none; }
-    .cat-tab:hover { background: #bfdbfe; }
+    .cat-tab:hover {
+      background: #1a3d8f;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(10,36,99,0.28);
+    }
+    .cat-tab:active { transform: translateY(0); }
     .cat-tab.active {
-      background: var(--accent);
+      background: #1e56c0;
       color: #fff;
+      box-shadow: 0 4px 16px rgba(30,86,192,0.4);
     }
     .cat-tab-name {
       font-weight: 700;
@@ -175,17 +191,17 @@
       overflow: hidden;
       text-overflow: ellipsis;
       max-width: 130px;
-      color: var(--text);
+      color: rgba(255,255,255,0.85);
     }
     .cat-tab.active .cat-tab-name { color: #fff; }
     .cat-tab-meta {
       font-size: 0.7rem;
-      color: var(--muted);
+      color: rgba(255,255,255,0.55);
       display: flex;
       align-items: center;
       gap: 6px;
     }
-    .cat-tab.active .cat-tab-meta { color: rgba(255,255,255,0.75); }
+    .cat-tab.active .cat-tab-meta { color: rgba(255,255,255,0.8); }
     .cat-tab-pct {
       font-size: 0.7rem;
       font-weight: 600;
@@ -193,32 +209,79 @@
     .cat-tab-bar {
       width: 100%;
       height: 3px;
-      background: rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.15);
       border-radius: 2px;
       overflow: hidden;
       margin-top: 4px;
     }
-    .cat-tab.active .cat-tab-bar { background: rgba(255,255,255,0.3); }
+    .cat-tab.active .cat-tab-bar { background: rgba(255,255,255,0.25); }
     .cat-tab-progress {
       height: 100%;
-      background: var(--green);
+      background: #7eb8f7;
       border-radius: 2px;
       transition: width 0.35s;
     }
-    .cat-tab.active .cat-tab-progress { background: rgba(255,255,255,0.85); }
+    .cat-tab.active .cat-tab-progress { background: #fff; }
 
     /* ── Tasks in Progress special tab ── */
-    .cat-tab.tip-tab { background: #fffbeb; }
-    .cat-tab.tip-tab:hover { background: #fef3c7; }
-    .cat-tab.tip-tab.active { background: #d97706; }
-    .cat-tab.tip-tab .cat-tab-name { color: #92400e; }
+    .cat-tab.tip-tab { background: #0f2060; }
+    .cat-tab.tip-tab:hover { background: #162878; }
+    .cat-tab.tip-tab.active { background: #1e56c0; box-shadow: 0 4px 16px rgba(30,86,192,0.4); }
+    .cat-tab.tip-tab .cat-tab-name { color: #a8c4f0; }
+
+    /* ── Progress-based button colors ── */
+    /* < 50% done → brownish-red */
+    .cat-tab.pct-low {
+      background: #7f2a1a;
+      box-shadow: 0 2px 8px rgba(127,42,26,0.30);
+    }
+    .cat-tab.pct-low:hover {
+      background: #9a3520;
+      box-shadow: 0 4px 14px rgba(127,42,26,0.40);
+    }
+    .cat-tab.pct-low.active {
+      background: #b03a22;
+      box-shadow: 0 4px 16px rgba(127,42,26,0.50);
+    }
+
+    /* ≥ 50% and < 100% done → amber/yellow (dark text for contrast) */
+    .cat-tab.pct-mid {
+      background: #b45309;
+      box-shadow: 0 2px 8px rgba(180,83,9,0.30);
+    }
+    .cat-tab.pct-mid:hover {
+      background: #c96010;
+      box-shadow: 0 4px 14px rgba(180,83,9,0.40);
+    }
+    .cat-tab.pct-mid.active {
+      background: #d97706;
+      box-shadow: 0 4px 16px rgba(180,83,9,0.50);
+    }
+    .cat-tab.pct-mid .cat-tab-name        { color: #fff5e0; }
+    .cat-tab.pct-mid .cat-tab-meta        { color: rgba(255,245,224,0.75); }
+    .cat-tab.pct-mid.active .cat-tab-name { color: #fff; }
+    .cat-tab.pct-mid.active .cat-tab-meta { color: rgba(255,255,255,0.85); }
+
+    /* 100% done → deep blue */
+    .cat-tab.pct-done {
+      background: #0a2463;
+      box-shadow: 0 2px 8px rgba(10,36,99,0.35);
+    }
+    .cat-tab.pct-done:hover {
+      background: #0d2f7a;
+      box-shadow: 0 4px 14px rgba(10,36,99,0.45);
+    }
+    .cat-tab.pct-done.active {
+      background: #1251a3;
+      box-shadow: 0 4px 16px rgba(10,36,99,0.55);
+    }
     .cat-tab.tip-tab.active .cat-tab-name { color: #fff; }
-    .cat-tab.tip-tab .cat-tab-meta { color: #b45309; }
+    .cat-tab.tip-tab .cat-tab-meta { color: rgba(168,196,240,0.7); }
     .cat-tab.tip-tab.active .cat-tab-meta { color: rgba(255,255,255,0.8); }
-    .cat-tab.tip-tab .cat-tab-bar { background: rgba(0,0,0,0.08); }
-    .cat-tab.tip-tab.active .cat-tab-bar { background: rgba(255,255,255,0.3); }
-    .cat-tab.tip-tab .cat-tab-progress { background: #f59e0b; }
-    .cat-tab.tip-tab.active .cat-tab-progress { background: rgba(255,255,255,0.85); }
+    .cat-tab.tip-tab .cat-tab-bar { background: rgba(255,255,255,0.12); }
+    .cat-tab.tip-tab.active .cat-tab-bar { background: rgba(255,255,255,0.25); }
+    .cat-tab.tip-tab .cat-tab-progress { background: #7eb8f7; }
+    .cat-tab.tip-tab.active .cat-tab-progress { background: #fff; }
 
     /* ── Tasks in Progress panel ── */
     .tip-panel {
@@ -253,10 +316,23 @@
     .tip-cat-group:last-child { border-bottom: none; }
     .tip-cat-label {
       display: flex; align-items: center; gap: 8px;
-      padding: 10px 20px 8px;
-      background: #fafbff;
+      padding: 10px 20px 10px;
+      background: #f0f4ff;
       border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s;
     }
+    .tip-cat-label:hover { background: #e0e7ff; }
+    .tip-cat-label.collapsed { border-bottom: none; }
+    .tip-cat-chevron {
+      font-size: 0.7rem;
+      color: var(--accent);
+      transition: transform 0.2s ease;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .tip-cat-label.collapsed .tip-cat-chevron { transform: rotate(-90deg); }
     .tip-cat-dot {
       width: 8px; height: 8px; border-radius: 50%;
       background: var(--accent); flex-shrink: 0;
@@ -270,6 +346,16 @@
       font-size: 0.7rem; font-weight: 700;
       background: var(--accent-light); color: var(--accent);
       border-radius: 20px; padding: 1px 7px;
+    }
+    .tip-cat-tasks {
+      overflow: hidden;
+      max-height: 2000px;
+      transition: max-height 0.3s ease, opacity 0.2s ease;
+      opacity: 1;
+    }
+    .tip-cat-tasks.collapsed {
+      max-height: 0;
+      opacity: 0;
     }
     .tip-task-row {
       display: flex; align-items: center; gap: 10px;
@@ -329,9 +415,7 @@
     }
     .subcat-row:last-child { border-bottom: none; }
     .subcat-row:hover { background: var(--accent-light); }
-    .subcat-row.active {
-      background: var(--accent);
-    }
+    .subcat-row.active { background: var(--accent); }
     .subcat-row-btn {
       flex: 1;
       text-align: left;
@@ -750,21 +834,19 @@
       .user-email { max-width: 140px; font-size: 0.78rem; }
 
       /* Main */
-      main { padding: 20px 12px 0; }
+      main { padding: 12px 12px 0; }
 
-      /* Category tabs — scrollable horizontal strip */
+      /* Menu section */
+      #cat-menu-section { padding: 12px 12px 0; }
+
+      /* Category tabs — wrap naturally on tablet */
       .cat-menu-wrap {
-        overflow-x: auto;
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
-        scroll-snap-type: x mandatory;
-        flex-wrap: nowrap;
+        gap: 6px;
       }
       .cat-tab {
-        flex: 0 0 auto;
-        min-width: 110px;
-        scroll-snap-align: start;
-        padding: 10px 8px 8px;
+        flex: 1 1 auto;
+        min-width: 120px;
+        padding: 10px 10px 8px;
       }
       .cat-tab-name { font-size: 0.8rem; max-width: 100px; }
       .cat-tab-meta { font-size: 0.65rem; }
@@ -837,13 +919,33 @@
       .auth-card { padding: 24px 18px; }
       .auth-card h2 { font-size: 1.2rem; }
 
-      /* Tabs — smaller */
-      .cat-tab {
-        min-width: 90px;
-        padding: 8px 6px 7px;
+      /* Tabs — stack vertically on mobile */
+      .cat-menu-wrap {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 6px;
       }
-      .cat-tab-name { font-size: 0.74rem; max-width: 80px; }
-      .cat-tab-meta { gap: 3px; }
+      .cat-tab {
+        flex: none;
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+        border-right: none;
+        border-bottom: none;
+        min-width: 0;
+      }
+      .cat-tab:last-child { border-bottom: none; }
+      .cat-tab-name {
+        font-size: 0.88rem;
+        max-width: none;
+        flex: 1;
+        white-space: normal;
+      }
+      .cat-tab-meta { font-size: 0.75rem; flex-shrink: 0; }
+      .cat-tab-bar { display: none; }
 
       /* Subcategory tabs compact */
       .subcat-row { min-width: 90px; }
@@ -886,8 +988,6 @@
     @media (max-width: 360px) {
       .header-stats { gap: 5px; }
       .stat .num { font-size: 0.95rem; }
-      .cat-tab { min-width: 80px; }
-      .cat-tab-name { font-size: 0.7rem; max-width: 70px; }
     }
 
     /* ── Smooth scrollbar styling for horizontal scrollers ── */
@@ -946,6 +1046,7 @@
   </div>
 </header>
 
+<div id="cat-menu-section"></div>
 <main>
   <div id="categories-list"></div>
   <div class="empty" id="empty-state" style="display:none;">
@@ -1045,6 +1146,8 @@
   let authMode      = 'signin';
   let activeCatId   = null;
   let activeSubcatId = null; // null = "All", or a subcategory id
+  let tipCollapsedGroups = new Set(); // tracks which cat IDs are collapsed in TIP panel
+  let catOpenSections = {};           // catId → Set of open subcatIds
 
   const MAX_CATS = 5;
   const FIXED_CATEGORIES = ['Goals', 'Lifestyle', 'Consultations', 'Adaptations', 'Stress Mgmt'];
@@ -1217,8 +1320,10 @@
   // ── Render ────────────────────────────────────────────────────────────────
   function render() {
     const list  = document.getElementById('categories-list');
+    const menuSection = document.getElementById('cat-menu-section');
     const empty = document.getElementById('empty-state');
     list.innerHTML = '';
+    menuSection.innerHTML = '';
 
     empty.style.display = categories.length ? 'none' : 'block';
     if (!categories.length) { updateStats(); return; }
@@ -1257,8 +1362,15 @@
       const done     = cat.tasks.filter(t => t.status === 'done').length;
       const pct      = total ? Math.round(done / total * 100) : 0;
       const isActive = cat.id === activeCatId;
+
+      // Determine color tier
+      let pctClass = '';
+      if (total === 0 || pct < 50)        pctClass = 'pct-low';
+      else if (pct >= 50 && pct < 100)    pctClass = 'pct-mid';
+      else                                 pctClass = 'pct-done';
+
       const tab = document.createElement('button');
-      tab.className      = 'cat-tab' + (isActive ? ' active' : '');
+      tab.className      = `cat-tab ${pctClass}` + (isActive ? ' active' : '');
       tab.dataset.action = 'select-tab';
       tab.dataset.cat    = cat.id;
       tab.innerHTML = `
@@ -1273,7 +1385,7 @@
       menuWrap.appendChild(tab);
     });
 
-    list.appendChild(menuWrap);
+    menuSection.appendChild(menuWrap);
 
     // ── Tasks in Progress panel ──
     if (activeCatId === TIP_TAB_ID) {
@@ -1303,15 +1415,26 @@
           </div>`;
       } else {
         inProgressGroups.forEach(({ cat, tasks }) => {
+          const isCollapsed = tipCollapsedGroups.has(cat.id);
           const group = document.createElement('div');
           group.className = 'tip-cat-group';
-          group.innerHTML = `
-            <div class="tip-cat-label">
-              <div class="tip-cat-dot"></div>
-              <span class="tip-cat-name">${esc(cat.name)}</span>
-              <span class="tip-cat-task-count">${tasks.length}</span>
-            </div>
-            ${tasks.map(t => {
+
+          // Accordion header
+          const label = document.createElement('div');
+          label.className = 'tip-cat-label' + (isCollapsed ? ' collapsed' : '');
+          label.dataset.action = 'toggle-tip-group';
+          label.dataset.cat    = cat.id;
+          label.innerHTML = `
+            <div class="tip-cat-dot"></div>
+            <span class="tip-cat-name">${esc(cat.name)}</span>
+            <span class="tip-cat-task-count">${tasks.length}</span>
+            <span class="tip-cat-chevron">▼</span>`;
+          group.appendChild(label);
+
+          // Accordion body (task rows)
+          const tasksWrap = document.createElement('div');
+          tasksWrap.className = 'tip-cat-tasks' + (isCollapsed ? ' collapsed' : '');
+          tasksWrap.innerHTML = tasks.map(t => {
               const sub = t.subcatId != null
                 ? (cat.subcategories || []).find(s => s.id === t.subcatId)
                 : null;
@@ -1333,7 +1456,8 @@
                     <button class="btn-icon" data-action="delete-task" data-cat="${cat.id}" data-task="${t.id}" title="Delete">🗑️</button>
                   </div>
                 </div>`;
-            }).join('')}`;
+            }).join('');
+          group.appendChild(tasksWrap);
           tipPanel.appendChild(group);
         });
       }
@@ -1410,7 +1534,6 @@
     content.className = 'subcat-content';
 
     if (subcats.length === 0) {
-      // No subcategories yet — prompt user to create one
       content.innerHTML = `
         <div class="subcat-empty-prompt">
           <div class="icon">📂</div>
@@ -1489,6 +1612,18 @@
     const taskId  = parseInt(el.dataset.task);
 
     if (action === 'select-tab')      { selectTab(el.dataset.cat); }
+    if (action === 'toggle-tip-group') {
+      const gid = parseInt(el.dataset.cat);
+      if (tipCollapsedGroups.has(gid)) {
+        tipCollapsedGroups.delete(gid);
+      } else {
+        tipCollapsedGroups.add(gid);
+      }
+      el.classList.toggle('collapsed');
+      const tasksWrap = el.nextElementSibling;
+      if (tasksWrap) tasksWrap.classList.toggle('collapsed');
+      return;
+    }
     if (action === 'select-subcat')   { selectSubcat(catId, el.dataset.subcat); }
     if (action === 'add-subcat')      { addSubcategory(catId); }
     if (action === 'rename-subcat')   { renameSubcategory(catId, parseInt(el.dataset.subcat)); }

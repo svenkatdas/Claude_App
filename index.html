@@ -130,7 +130,7 @@
     }
 
     /* ── Main layout ── */
-    main { max-width: 860px; margin: 0 auto; padding: 20px 20px 0; }
+    main { width: 100%; padding: 20px 20px 0; }
 
     /* ── Full-width menu section (outside main's max-width constraint) ── */
     #cat-menu-section {
@@ -164,7 +164,7 @@
       padding: 14px 14px 12px;
       border: none;
       border-right: none;
-      background: #0d2d7a;
+      background: #1e3a5f;
       cursor: pointer;
       transition: background 0.15s, color 0.15s, transform 0.1s, box-shadow 0.15s;
       position: relative;
@@ -174,15 +174,14 @@
     }
     .cat-tab:last-child { border-right: none; }
     .cat-tab:hover {
-      background: #1a3d8f;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 14px rgba(10,36,99,0.28);
+      background: #254a7a;
+      box-shadow: 0 4px 14px rgba(30,58,95,0.35);
     }
     .cat-tab:active { transform: translateY(0); }
     .cat-tab.active {
-      background: #1e56c0;
+      background: #2d5a9e;
       color: #fff;
-      box-shadow: 0 4px 16px rgba(30,86,192,0.4);
+      box-shadow: 0 4px 16px rgba(30,58,95,0.45);
     }
     .cat-tab-name {
       font-weight: 700;
@@ -224,56 +223,56 @@
     .cat-tab.active .cat-tab-progress { background: #fff; }
 
     /* ── Tasks in Progress special tab ── */
-    .cat-tab.tip-tab { background: #0f2060; }
-    .cat-tab.tip-tab:hover { background: #162878; }
-    .cat-tab.tip-tab.active { background: #1e56c0; box-shadow: 0 4px 16px rgba(30,86,192,0.4); }
+    .cat-tab.tip-tab { background: #6b3a1f; }
+    .cat-tab.tip-tab:hover { background: #7d4525; box-shadow: 0 4px 14px rgba(107,58,31,0.40); }
+    .cat-tab.tip-tab.active { background: #8b4513; box-shadow: 0 4px 16px rgba(107,58,31,0.5); }
     .cat-tab.tip-tab .cat-tab-name { color: #a8c4f0; }
 
     /* ── Progress-based button colors ── */
-    /* < 50% done → brownish-red */
+    /* < 50% done → dark blue */
     .cat-tab.pct-low {
-      background: #7f2a1a;
-      box-shadow: 0 2px 8px rgba(127,42,26,0.30);
+      background: #1e3a5f;
+      box-shadow: 0 2px 8px rgba(30,58,95,0.30);
     }
     .cat-tab.pct-low:hover {
-      background: #9a3520;
-      box-shadow: 0 4px 14px rgba(127,42,26,0.40);
+      background: #254a7a;
+      box-shadow: 0 4px 14px rgba(30,58,95,0.40);
     }
     .cat-tab.pct-low.active {
-      background: #b03a22;
-      box-shadow: 0 4px 16px rgba(127,42,26,0.50);
+      background: #2d5a9e;
+      box-shadow: 0 4px 16px rgba(30,58,95,0.50);
     }
 
-    /* ≥ 50% and < 100% done → amber/yellow (dark text for contrast) */
+    /* ≥ 50% and < 100% done → dark blue */
     .cat-tab.pct-mid {
-      background: #b45309;
-      box-shadow: 0 2px 8px rgba(180,83,9,0.30);
+      background: #1e3a5f;
+      box-shadow: 0 2px 8px rgba(30,58,95,0.30);
     }
     .cat-tab.pct-mid:hover {
-      background: #c96010;
-      box-shadow: 0 4px 14px rgba(180,83,9,0.40);
+      background: #254a7a;
+      box-shadow: 0 4px 14px rgba(30,58,95,0.40);
     }
     .cat-tab.pct-mid.active {
-      background: #d97706;
-      box-shadow: 0 4px 16px rgba(180,83,9,0.50);
+      background: #2d5a9e;
+      box-shadow: 0 4px 16px rgba(30,58,95,0.50);
     }
-    .cat-tab.pct-mid .cat-tab-name        { color: #fff5e0; }
-    .cat-tab.pct-mid .cat-tab-meta        { color: rgba(255,245,224,0.75); }
+    .cat-tab.pct-mid .cat-tab-name        { color: rgba(255,255,255,0.9); }
+    .cat-tab.pct-mid .cat-tab-meta        { color: rgba(255,255,255,0.65); }
     .cat-tab.pct-mid.active .cat-tab-name { color: #fff; }
     .cat-tab.pct-mid.active .cat-tab-meta { color: rgba(255,255,255,0.85); }
 
-    /* 100% done → deep blue */
+    /* 100% done → dark blue */
     .cat-tab.pct-done {
-      background: #0a2463;
-      box-shadow: 0 2px 8px rgba(10,36,99,0.35);
+      background: #1e3a5f;
+      box-shadow: 0 2px 8px rgba(30,58,95,0.35);
     }
     .cat-tab.pct-done:hover {
-      background: #0d2f7a;
-      box-shadow: 0 4px 14px rgba(10,36,99,0.45);
+      background: #254a7a;
+      box-shadow: 0 4px 14px rgba(30,58,95,0.45);
     }
     .cat-tab.pct-done.active {
-      background: #1251a3;
-      box-shadow: 0 4px 16px rgba(10,36,99,0.55);
+      background: #2d5a9e;
+      box-shadow: 0 4px 16px rgba(30,58,95,0.55);
     }
     .cat-tab.tip-tab.active .cat-tab-name { color: #fff; }
     .cat-tab.tip-tab .cat-tab-meta { color: rgba(168,196,240,0.7); }
@@ -387,7 +386,7 @@
 
     /* ── Subcategory sidebar (vertical) ── */
     .subcat-sidebar {
-      width: 200px;
+      width: 270px;
       flex-shrink: 0;
       background: #f8f9ff;
       border-right: 1.5px solid var(--border);
@@ -478,6 +477,128 @@
       text-align: center;
     }
     .subcat-add-btn:hover { background: #e0e7ff; }
+
+    /* ── Sub-Subcategory sidebar (middle column) ── */
+    .subsubcat-sidebar {
+      width: 286px;
+      flex-shrink: 0;
+      background: #f0f4ff;
+      border-right: 1.5px solid var(--border);
+      display: flex;
+      flex-direction: column;
+    }
+    .subsubcat-sidebar-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--muted);
+      padding: 12px 14px 8px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .subsubcat-sidebar-title span { flex: 1; }
+    .subsubcat-list {
+      flex: 1;
+      overflow-y: auto;
+    }
+    /* "All" row at top of sub-subcat list */
+    .subsubcat-all-row {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.1s;
+    }
+    .subsubcat-all-row:hover { background: #dde5ff; }
+    .subsubcat-all-row.active { background: var(--accent); }
+    .subsubcat-all-btn {
+      flex: 1;
+      text-align: left;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 9px 14px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    .subsubcat-all-row.active .subsubcat-all-btn { color: #fff; }
+    .subsubcat-row {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.1s;
+    }
+    .subsubcat-row:last-child { border-bottom: none; }
+    .subsubcat-row:hover { background: #dde5ff; }
+    .subsubcat-row.active { background: var(--accent); }
+    .subsubcat-row-btn {
+      flex: 1;
+      text-align: left;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 9px 14px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    .subsubcat-row.active .subsubcat-row-btn { color: #fff; }
+    .subsubcat-row-count {
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: rgba(0,0,0,0.07);
+      border-radius: 20px;
+      padding: 1px 7px;
+      flex-shrink: 0;
+    }
+    .subsubcat-row.active .subsubcat-row-count { background: rgba(255,255,255,0.25); color: #fff; }
+    .subsubcat-row-actions {
+      display: none;
+      gap: 1px;
+      padding-right: 6px;
+    }
+    .subsubcat-row:hover .subsubcat-row-actions { display: flex; }
+    .subsubcat-row.active .subsubcat-row-actions { display: flex; }
+    .subsubcat-rename-btn, .subsubcat-delete-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: 0.75rem; padding: 3px 4px; border-radius: 4px;
+      color: var(--muted); transition: background 0.1s, color 0.1s;
+    }
+    .subsubcat-row.active .subsubcat-rename-btn,
+    .subsubcat-row.active .subsubcat-delete-btn { color: rgba(255,255,255,0.7); }
+    .subsubcat-rename-btn:hover { color: var(--accent); background: var(--accent-light); }
+    .subsubcat-delete-btn:hover { color: var(--danger); background: var(--danger-light); }
+    .subsubcat-row.active .subsubcat-rename-btn:hover { color: #fff; background: rgba(255,255,255,0.2); }
+    .subsubcat-row.active .subsubcat-delete-btn:hover  { color: #fca5a5; background: rgba(255,255,255,0.15); }
+    .subsubcat-add-row {
+      padding: 10px 14px;
+      border-top: 1px solid var(--border);
+    }
+    .subsubcat-add-btn {
+      width: 100%;
+      padding: 7px 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #6366f1;
+      background: #e0e7ff;
+      border: 1.5px dashed #a5b4fc;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: background 0.12s;
+      text-align: center;
+    }
+    .subsubcat-add-btn:hover { background: #c7d2fe; }
 
     /* ── Task content area ── */
     .subcat-content {
@@ -581,6 +702,93 @@
 
     .task-actions { display: flex; gap: 2px; align-items: center; }
 
+    /* ── Priority dropdown ── */
+    .priority-select {
+      font-size: 0.7rem; font-weight: 700;
+      padding: 2px 6px; border-radius: 20px;
+      border: none; cursor: pointer;
+      appearance: none; -webkit-appearance: none;
+      outline: none;
+      white-space: nowrap; flex-shrink: 0;
+      transition: opacity 0.15s;
+    }
+    .priority-select:hover { opacity: 0.82; }
+    .priority-critical { background: #fef2f2; color: #b91c1c; }
+    .priority-high     { background: #fff7ed; color: #c2410c; }
+    .priority-medium   { background: #fefce8; color: #a16207; }
+    .priority-low      { background: #f0fdf4; color: #15803d; }
+    .priority-none     { background: #f1f5f9; color: #64748b; }
+
+    /* ── TIP Priority group header ── */
+    .tip-priority-group { border-bottom: 1.5px solid var(--border); }
+    .tip-priority-group:last-child { border-bottom: none; }
+    .tip-priority-label {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 20px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer; user-select: none;
+      transition: background 0.15s;
+    }
+    .tip-priority-label:hover { opacity: 0.9; }
+    .tip-priority-label.collapsed { border-bottom: none; }
+    .tip-priority-chevron {
+      font-size: 0.7rem; transition: transform 0.2s ease;
+      margin-left: auto; flex-shrink: 0;
+    }
+    .tip-priority-label.collapsed .tip-priority-chevron { transform: rotate(-90deg); }
+    .tip-priority-name {
+      font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .tip-priority-count {
+      font-size: 0.7rem; font-weight: 700;
+      border-radius: 20px; padding: 1px 7px;
+    }
+    /* Priority group header colors */
+    .tip-priority-label.pri-critical { background: #fef2f2; }
+    .tip-priority-label.pri-critical:hover { background: #fee2e2; }
+    .tip-priority-label.pri-critical .tip-priority-name { color: #b91c1c; }
+    .tip-priority-label.pri-critical .tip-priority-count { background: #fecaca; color: #b91c1c; }
+    .tip-priority-label.pri-critical .tip-priority-chevron { color: #b91c1c; }
+
+    .tip-priority-label.pri-high { background: #fff7ed; }
+    .tip-priority-label.pri-high:hover { background: #ffedd5; }
+    .tip-priority-label.pri-high .tip-priority-name { color: #c2410c; }
+    .tip-priority-label.pri-high .tip-priority-count { background: #fed7aa; color: #c2410c; }
+    .tip-priority-label.pri-high .tip-priority-chevron { color: #c2410c; }
+
+    .tip-priority-label.pri-medium { background: #fefce8; }
+    .tip-priority-label.pri-medium:hover { background: #fef9c3; }
+    .tip-priority-label.pri-medium .tip-priority-name { color: #a16207; }
+    .tip-priority-label.pri-medium .tip-priority-count { background: #fde68a; color: #a16207; }
+    .tip-priority-label.pri-medium .tip-priority-chevron { color: #a16207; }
+
+    .tip-priority-label.pri-low { background: #f0fdf4; }
+    .tip-priority-label.pri-low:hover { background: #dcfce7; }
+    .tip-priority-label.pri-low .tip-priority-name { color: #15803d; }
+    .tip-priority-label.pri-low .tip-priority-count { background: #bbf7d0; color: #15803d; }
+    .tip-priority-label.pri-low .tip-priority-chevron { color: #15803d; }
+
+    .tip-priority-label.pri-none { background: #f8fafc; }
+    .tip-priority-label.pri-none:hover { background: #f1f5f9; }
+    .tip-priority-label.pri-none .tip-priority-name { color: #64748b; }
+    .tip-priority-label.pri-none .tip-priority-count { background: #e2e8f0; color: #64748b; }
+    .tip-priority-label.pri-none .tip-priority-chevron { color: #64748b; }
+
+    .tip-priority-tasks {
+      overflow: hidden; max-height: 2000px;
+      transition: max-height 0.3s ease, opacity 0.2s ease; opacity: 1;
+    }
+    .tip-priority-tasks.collapsed { max-height: 0; opacity: 0; }
+
+    /* Category badge inside TIP priority groups */
+    .tip-cat-badge {
+      font-size: 0.68rem; font-weight: 600;
+      background: #e0e7ff; color: #3730a3;
+      border-radius: 20px; padding: 2px 8px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+
     /* ── Notes button on task row ── */
     .btn-notes {
       background: transparent; border: none; cursor: pointer;
@@ -653,6 +861,122 @@
       pointer-events: none;
     }
     #save-indicator.visible { opacity: 1; }
+
+    /* ── Task name as hyperlink ── */
+    .task-link {
+      flex: 1;
+      background: none; border: none; padding: 0;
+      text-align: left; cursor: pointer;
+      font-size: 0.92rem;
+      color: var(--accent);
+      text-decoration: underline;
+      text-decoration-color: transparent;
+      text-underline-offset: 2px;
+      transition: text-decoration-color 0.15s, color 0.15s;
+      font-family: inherit;
+      line-height: 1.4;
+      white-space: normal;
+      word-break: break-word;
+    }
+    .task-link:hover {
+      text-decoration-color: var(--accent);
+      color: var(--accent-hover);
+    }
+    .task-link.done {
+      text-decoration: line-through;
+      text-decoration-color: var(--muted);
+      color: var(--muted);
+    }
+    .task-link.has-notes::after {
+      content: ' 📝';
+      font-size: 0.75rem;
+      opacity: 0.6;
+    }
+
+    /* ── Task Editor Modal ── */
+    #task-editor-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      z-index: 600;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    #task-editor-backdrop.visible { display: flex; }
+
+    #task-editor-modal {
+      background: var(--surface);
+      border-radius: 14px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+      width: 100%;
+      max-width: 700px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: modal-in 0.18s ease;
+    }
+
+    /* Task editor header */
+    .task-editor-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      background: #fafbff;
+      flex-shrink: 0;
+    }
+    .task-editor-icon { font-size: 1.2rem; }
+    .task-editor-header-label {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.5px; color: var(--muted);
+    }
+    .task-editor-close {
+      background: none; border: none; cursor: pointer;
+      font-size: 1.2rem; color: var(--muted); padding: 4px 8px;
+      border-radius: 6px; transition: background 0.12s, color 0.12s;
+      line-height: 1; margin-left: auto;
+    }
+    .task-editor-close:hover { background: var(--danger-light); color: var(--danger); }
+
+    /* Task name field inside editor */
+    .task-editor-name-wrap {
+      padding: 16px 20px 12px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      background: var(--surface);
+    }
+    .task-editor-name-label {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.5px; color: var(--muted); margin-bottom: 7px;
+    }
+    #task-editor-name {
+      width: 100%; padding: 9px 13px;
+      border: 1.5px solid var(--border); border-radius: var(--radius);
+      font-size: 1rem; font-weight: 600;
+      outline: none; background: var(--bg);
+      color: var(--text);
+      transition: border-color 0.15s, background 0.15s;
+      font-family: inherit;
+    }
+    #task-editor-name:focus { border-color: var(--accent); background: var(--surface); }
+
+    /* Notes section label */
+    .task-editor-notes-label {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.5px; color: var(--muted);
+      padding: 10px 20px 0;
+      flex-shrink: 0;
+    }
+
+    /* Task editor footer */
+    .task-editor-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 20px;
+      border-top: 1px solid var(--border);
+      background: #fafbff;
+      flex-shrink: 0;
+    }
 
     /* ══════════════════════════════════════════
        ── Notes Modal ──
@@ -744,45 +1068,47 @@
       padding: 0;
       min-height: 200px;
     }
-    #notes-editor {
+    #notes-editor, #task-editor-notes {
       outline: none;
       padding: 18px 22px;
-      min-height: 220px;
+      min-height: 180px;
       font-size: 0.93rem;
       line-height: 1.7;
       color: var(--text);
       caret-color: var(--accent);
     }
-    #notes-editor:empty::before {
+    #notes-editor:empty::before,
+    #task-editor-notes:empty::before {
       content: 'Start typing your notes here… Use the toolbar above to format text.';
       color: var(--muted);
       pointer-events: none;
     }
 
     /* Formatted content styles inside editor */
-    #notes-editor h1 { font-size: 1.3rem; font-weight: 700; margin: 8px 0 4px; }
-    #notes-editor h2 { font-size: 1.1rem; font-weight: 700; margin: 8px 0 4px; color: var(--accent); }
-    #notes-editor h3 { font-size: 0.98rem; font-weight: 700; margin: 6px 0 4px; }
-    #notes-editor p  { margin: 4px 0; }
-    #notes-editor ul, #notes-editor ol { padding-left: 22px; margin: 4px 0; }
-    #notes-editor li { margin: 2px 0; }
-    #notes-editor blockquote {
+    #notes-editor h1, #task-editor-notes h1 { font-size: 1.3rem; font-weight: 700; margin: 8px 0 4px; }
+    #notes-editor h2, #task-editor-notes h2 { font-size: 1.1rem; font-weight: 700; margin: 8px 0 4px; color: var(--accent); }
+    #notes-editor h3, #task-editor-notes h3 { font-size: 0.98rem; font-weight: 700; margin: 6px 0 4px; }
+    #notes-editor p,  #task-editor-notes p  { margin: 4px 0; }
+    #notes-editor ul, #notes-editor ol,
+    #task-editor-notes ul, #task-editor-notes ol { padding-left: 22px; margin: 4px 0; }
+    #notes-editor li, #task-editor-notes li { margin: 2px 0; }
+    #notes-editor blockquote, #task-editor-notes blockquote {
       border-left: 3px solid var(--accent);
       padding: 4px 12px; margin: 6px 0;
       background: var(--accent-light); border-radius: 0 6px 6px 0;
       color: var(--muted); font-style: italic;
     }
-    #notes-editor hr {
+    #notes-editor hr, #task-editor-notes hr {
       border: none; border-top: 1.5px solid var(--border);
       margin: 10px 0;
     }
-    #notes-editor a { color: var(--accent); }
-    #notes-editor strong { font-weight: 700; }
-    #notes-editor em     { font-style: italic; }
-    #notes-editor u      { text-decoration: underline; }
-    #notes-editor s      { text-decoration: line-through; color: var(--muted); }
-    #notes-editor mark   { background: #fef9c3; padding: 0 2px; border-radius: 3px; }
-    #notes-editor code {
+    #notes-editor a, #task-editor-notes a { color: var(--accent); }
+    #notes-editor strong, #task-editor-notes strong { font-weight: 700; }
+    #notes-editor em,     #task-editor-notes em     { font-style: italic; }
+    #notes-editor u,      #task-editor-notes u      { text-decoration: underline; }
+    #notes-editor s,      #task-editor-notes s      { text-decoration: line-through; color: var(--muted); }
+    #notes-editor mark,   #task-editor-notes mark   { background: #fef9c3; padding: 0 2px; border-radius: 3px; }
+    #notes-editor code,   #task-editor-notes code {
       font-family: 'Menlo', 'Consolas', monospace;
       font-size: 0.85em;
       background: #f1f5f9; padding: 1px 5px; border-radius: 4px;
@@ -997,6 +1323,62 @@
     .subcat-list::-webkit-scrollbar-track { background: transparent; }
     .cat-menu-wrap::-webkit-scrollbar-thumb,
     .subcat-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    /* ── Admin Button ── */
+    .btn-admin {
+      background: #f59e0b;
+      color: #1e293b;
+      border: none;
+    }
+    .btn-admin:hover { background: #d97706; }
+    .btn-admin.active {
+      background: #fde68a;
+      color: #92400e;
+      border: 1.5px solid #fbbf24;
+    }
+
+    /* ── Admin View ── */
+    #admin-view main {
+      width: 100%;
+      margin: 0;
+      padding: 20px 20px 0;
+    }
+    #admin-panel-content {
+      margin-bottom: 24px;
+    }
+    .admin-panel-inner {
+      background: #fff8f0;
+      border: 1.5px solid #fed7aa;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .admin-panel-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 20px;
+      background: #fff3e0;
+      border-bottom: 1.5px solid #fed7aa;
+    }
+    .admin-panel-icon { font-size: 1.2rem; }
+    .admin-panel-title {
+      font-size: 0.95rem; font-weight: 700; color: #92400e; flex: 1;
+    }
+    .admin-panel-count {
+      font-size: 0.78rem; font-weight: 700;
+      background: #fed7aa; color: #92400e;
+      border-radius: 20px; padding: 2px 10px;
+    }
+    .admin-email-list { padding: 8px 0; }
+    .admin-email-row {
+      padding: 9px 20px;
+      font-size: 0.88rem; color: var(--text);
+      border-bottom: 1px solid #fde8c8;
+    }
+    .admin-email-row:last-child { border-bottom: none; }
+    .admin-email-row:hover { background: #fff3e0; }
+    .admin-empty {
+      padding: 20px; text-align: center;
+      color: var(--muted); font-size: 0.88rem;
+    }
   </style>
 </head>
 <body>
@@ -1041,13 +1423,22 @@
     </div>
     <div class="user-info" id="user-info" style="display:none;">
       <span class="user-email" id="user-email-display"></span>
+      <button class="btn btn-admin btn-sm" id="admin-panel-btn" style="display:none;">🔐 Admin Panel</button>
       <button class="btn btn-ghost btn-sm" id="signout-btn">Sign Out</button>
     </div>
   </div>
 </header>
 
 <div id="cat-menu-section"></div>
-<main>
+
+<!-- Admin View (only visible when admin clicks Admin Panel button) -->
+<div id="admin-view" style="display:none;">
+  <main>
+    <div id="admin-panel-content"></div>
+  </main>
+</div>
+
+<main id="app-main">
   <div id="categories-list"></div>
   <div class="empty" id="empty-state" style="display:none;">
     <div class="icon">📋</div>
@@ -1061,6 +1452,59 @@
 <div class="status-menu" id="status-menu" style="display:none;"></div>
 <!-- Save indicator -->
 <div id="save-indicator">✓ Saved</div>
+
+<!-- ── Task Editor Modal (name + notes) ── -->
+<div id="task-editor-backdrop">
+  <div id="task-editor-modal">
+    <div class="task-editor-header">
+      <span class="task-editor-icon">✏️</span>
+      <span class="task-editor-header-label">Edit Task</span>
+      <button class="task-editor-close" id="task-editor-close" title="Close">✕</button>
+    </div>
+
+    <div class="task-editor-name-wrap">
+      <div class="task-editor-name-label">Task Name</div>
+      <input type="text" id="task-editor-name" placeholder="Task name…" maxlength="120" />
+    </div>
+
+    <div class="task-editor-notes-label">Notes</div>
+
+    <div class="notes-toolbar" id="task-editor-toolbar">
+      <button class="toolbar-btn" data-cmd="bold"          title="Bold"><b>B</b></button>
+      <button class="toolbar-btn" data-cmd="italic"        title="Italic"><i>I</i></button>
+      <button class="toolbar-btn" data-cmd="underline"     title="Underline"><u>U</u></button>
+      <button class="toolbar-btn" data-cmd="strikeThrough" title="Strikethrough"><s>S</s></button>
+      <button class="toolbar-btn" data-cmd="hiliteColor" data-val="#fef9c3" title="Highlight">🖊</button>
+      <div class="toolbar-sep"></div>
+      <button class="toolbar-btn" data-cmd="formatBlock" data-val="h1" title="Heading 1">H1</button>
+      <button class="toolbar-btn" data-cmd="formatBlock" data-val="h2" title="Heading 2">H2</button>
+      <button class="toolbar-btn" data-cmd="formatBlock" data-val="h3" title="Heading 3">H3</button>
+      <div class="toolbar-sep"></div>
+      <button class="toolbar-btn" data-cmd="insertUnorderedList" title="Bullet list">• List</button>
+      <button class="toolbar-btn" data-cmd="insertOrderedList"   title="Numbered list">1. List</button>
+      <div class="toolbar-sep"></div>
+      <button class="toolbar-btn" data-cmd="formatBlock" data-val="blockquote" title="Blockquote">" "</button>
+      <button class="toolbar-btn" data-cmd="formatBlock" data-val="pre"        title="Code block">&lt;/&gt;</button>
+      <div class="toolbar-sep"></div>
+      <button class="toolbar-btn" data-cmd="indent"  title="Indent">→</button>
+      <button class="toolbar-btn" data-cmd="outdent" title="Outdent">←</button>
+      <div class="toolbar-sep"></div>
+      <button class="toolbar-btn" data-cmd="removeFormat" title="Remove formatting">✕ fmt</button>
+    </div>
+
+    <div class="notes-editor-wrap">
+      <div id="task-editor-notes" contenteditable="true" spellcheck="true"></div>
+    </div>
+
+    <div class="task-editor-footer">
+      <span class="notes-char-count" id="task-editor-char-count">0 characters</span>
+      <div class="notes-footer-actions">
+        <button class="btn-notes-clear" id="task-editor-clear-btn">Clear Notes</button>
+        <button class="btn-notes-save"  id="task-editor-save-btn">Save &amp; Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ── Notes Modal ── -->
 <div id="notes-modal-backdrop">
@@ -1117,40 +1561,47 @@
 <script type="module">
   import { initializeApp }
     from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-  import { getFirestore, doc, getDoc, setDoc }
+  import { getFirestore, doc, getDoc, setDoc, collection, getDocs }
     from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
   import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
            signOut, onAuthStateChanged }
     from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 
   // ── Firebase Config ────────────────────────────────────────────────────────
-  const firebaseConfig = {
-    apiKey:            "AIzaSyCm5V7AfWZ4nu1goC6rvPFk5i5CJ_DTTKI",
-    authDomain:        "health-8bf9e.firebaseapp.com",
-    projectId:         "health-8bf9e",
-    storageBucket:     "health-8bf9e.firebasestorage.app",
-    messagingSenderId: "337607108367",
-    appId:             "1:337607108367:web:9209c3ec283765a434c07a"
-  };
+   const firebaseConfig = {
+                 apiKey:            "AIzaSyCm5V7AfWZ4nu1goC6rvPFk5i5CJ_DTTKI",
+                 authDomain:        "health-8bf9e.firebaseapp.com",
+                 projectId:         "health-8bf9e",
+                 storageBucket:     "health-8bf9e.firebasestorage.app",
+                 messagingSenderId: "337607108367",
+                 appId:             "1:337607108367:web:9209c3ec283765a434c07a"
+      };
+
 
   const app  = initializeApp(firebaseConfig);
   const db   = getFirestore(app);
   const auth = getAuth(app);
 
+  // ── Admin ──────────────────────────────────────────────────────────────────
+  const ADMIN_EMAIL = 'always.wired@gmail.com';
+
   // ── App State ─────────────────────────────────────────────────────────────
   let categories    = [];
   let nextCatId     = 1;
   let nextTaskId    = 1;
-  let nextSubcatId  = 1;
+  let nextSubcatId    = 1;
+  let nextSubSubcatId = 1;
   let currentUser   = null;
   let authMode      = 'signin';
   let activeCatId   = null;
   let activeSubcatId = null; // null = "All", or a subcategory id
+  let activeSubSubcatId = null; // null = "All", or a sub-subcategory id
   let tipCollapsedGroups = new Set(); // tracks which cat IDs are collapsed in TIP panel
+  let tipCollapsedPriorityGroups = new Set(); // tracks which priority keys are collapsed in TIP panel
   let catOpenSections = {};           // catId → Set of open subcatIds
 
-  const MAX_CATS = 5;
-  const FIXED_CATEGORIES = ['Goals', 'Lifestyle', 'Consultations', 'Adaptations', 'Stress Mgmt'];
+  const MAX_CATS = 6;
+  const FIXED_CATEGORIES = ['Health & Fitness', 'Finance', 'Family & Friends', 'Lifestyle', 'Innovations', 'Stress Mgmt'];
   const TIP_TAB_ID = 'tasks-in-progress'; // Special sentinel for the TIP tab
 
   const STATUSES = [
@@ -1159,6 +1610,14 @@
     { key: 'done',        label: 'Done',        cls: 'status-done'        },
     { key: 'blocked',     label: 'Blocked',     cls: 'status-blocked'     },
   ];
+
+  const PRIORITIES = [
+    { key: 'critical', label: 'Critical', cls: 'priority-critical', dot: '🔴' },
+    { key: 'high',     label: 'High',     cls: 'priority-high',     dot: '🟠' },
+    { key: 'medium',   label: 'Medium',   cls: 'priority-medium',   dot: '🟡' },
+    { key: 'low',      label: 'Low',      cls: 'priority-low',      dot: '🟢' },
+  ];
+  const PRIORITY_ORDER = ['critical', 'high', 'medium', 'low', null];
 
   function statusInfo(key) { return STATUSES.find(s => s.key === key) || STATUSES[0]; }
 
@@ -1182,6 +1641,7 @@
         nextCatId    = data.nextCatId    || 1;
         nextTaskId   = data.nextTaskId   || 1;
         nextSubcatId = data.nextSubcatId || 1;
+        nextSubSubcatId = data.nextSubSubcatId || 1;
         if (categories.length) {
           const maxCat = Math.max(...categories.map(c => c.id));
           if (maxCat >= nextCatId) nextCatId = maxCat + 1;
@@ -1195,6 +1655,11 @@
         if (allSubcats.length) {
           const maxSub = Math.max(...allSubcats.map(s => s.id));
           if (maxSub >= nextSubcatId) nextSubcatId = maxSub + 1;
+        }
+        const allSubSubcats = categories.flatMap(c => (c.subcategories || []).flatMap(s => s.subsubcategories || []));
+        if (allSubSubcats.length) {
+          const maxSSub = Math.max(...allSubSubcats.map(ss => ss.id));
+          if (maxSSub >= nextSubSubcatId) nextSubSubcatId = maxSSub + 1;
         }
       }
     } catch (e) {
@@ -1218,7 +1683,10 @@
     // Keep only the five fixed categories
     categories = FIXED_CATEGORIES.map(name => categories.find(c => c.name === name));
     // Ensure every category has a subcategories array
-    categories.forEach(c => { if (!c.subcategories) c.subcategories = []; });
+    categories.forEach(c => {
+      if (!c.subcategories) c.subcategories = [];
+      c.subcategories.forEach(s => { if (!s.subsubcategories) s.subsubcategories = []; });
+    });
 
     render();
   }
@@ -1236,6 +1704,8 @@
         nextCatId,
         nextTaskId,
         nextSubcatId,
+        nextSubSubcatId,
+        email: currentUser.email,
         updatedAt: new Date().toISOString()
       });
     } catch (e) {
@@ -1252,6 +1722,18 @@
       document.getElementById('user-info').style.display    = 'flex';
       document.getElementById('user-email-display').textContent = user.email;
       await loadData(user.uid);
+      // Always persist email in user doc (captures existing users on their next login)
+      try {
+        await setDoc(doc(db, 'users', user.uid), { email: user.email }, { merge: true });
+      } catch(e) { /* non-critical */ }
+      // Show Admin Panel button ONLY for the administrator
+      const adminBtn = document.getElementById('admin-panel-btn');
+      if (user.email === ADMIN_EMAIL) {
+        adminBtn.style.display = 'inline-flex';
+      } else {
+        adminBtn.style.display = 'none';
+        hideAdminView(); // ensure admin view is never visible to non-admins
+      }
     } else {
       currentUser = null;
       categories  = [];
@@ -1315,7 +1797,70 @@
       if (e.key === 'Enter') submitAuth();
     });
   });
-  document.getElementById('signout-btn').addEventListener('click', () => signOut(auth));
+  document.getElementById('signout-btn').addEventListener('click', () => {
+    hideAdminView();
+    adminPanelLoaded = false;
+    signOut(auth);
+  });
+  document.getElementById('admin-panel-btn').addEventListener('click', () => {
+    const isOpen = document.getElementById('admin-view').style.display !== 'none';
+    if (isOpen) { hideAdminView(); } else { showAdminView(); }
+  });
+
+  // ── Admin Panel ───────────────────────────────────────────────────────────
+  let adminPanelLoaded = false;
+
+  async function loadAdminPanel() {
+    const panel = document.getElementById('admin-panel-content');
+    panel.innerHTML = `<div class="admin-panel-inner"><div class="admin-panel-header"><span class="admin-panel-icon">🔐</span><span class="admin-panel-title">Admin: Registered Users</span><span class="admin-panel-count">Loading…</span></div><div class="admin-email-list"><div class="admin-empty">Loading user list…</div></div></div>`;
+
+    try {
+      const snap = await getDocs(collection(db, 'users'));
+      const emails = [];
+      snap.forEach(d => {
+        const data = d.data();
+        if (data.email && data.email !== ADMIN_EMAIL) {
+          emails.push(data.email);
+        }
+      });
+      emails.sort();
+
+      panel.innerHTML = `
+        <div class="admin-panel-inner">
+          <div class="admin-panel-header">
+            <span class="admin-panel-icon">🔐</span>
+            <span class="admin-panel-title">Admin: Registered Users</span>
+            <span class="admin-panel-count">${emails.length} user${emails.length !== 1 ? 's' : ''}</span>
+          </div>
+          <div class="admin-email-list">
+            ${emails.length === 0
+              ? '<div class="admin-empty">No users have signed up yet.</div>'
+              : emails.map(e => `<div class="admin-email-row">📧 ${esc(e)}</div>`).join('')}
+          </div>
+        </div>`;
+      adminPanelLoaded = true;
+    } catch (err) {
+      console.error('Admin panel error:', err);
+      panel.innerHTML = `<div class="admin-panel-inner"><div class="admin-panel-header"><span class="admin-panel-icon">🔐</span><span class="admin-panel-title">Admin: Registered Users</span></div><div class="admin-email-list"><div class="admin-empty">⚠️ Could not load user list. Check Firestore security rules.</div></div></div>`;
+    }
+  }
+
+  function showAdminView() {
+    document.getElementById('admin-view').style.display  = 'block';
+    document.getElementById('app-main').style.display    = 'none';
+    document.getElementById('cat-menu-section').style.display = 'none';
+    document.getElementById('admin-panel-btn').classList.add('active');
+    document.getElementById('admin-panel-btn').textContent = '✕ Close Admin';
+    if (!adminPanelLoaded) loadAdminPanel();
+  }
+
+  function hideAdminView() {
+    document.getElementById('admin-view').style.display  = 'none';
+    document.getElementById('app-main').style.display    = 'block';
+    document.getElementById('cat-menu-section').style.display = 'block';
+    document.getElementById('admin-panel-btn').classList.remove('active');
+    document.getElementById('admin-panel-btn').textContent = '🔐 Admin Panel';
+  }
 
   // ── Render ────────────────────────────────────────────────────────────────
   function render() {
@@ -1389,12 +1934,14 @@
 
     // ── Tasks in Progress panel ──
     if (activeCatId === TIP_TAB_ID) {
-      const inProgressGroups = categories.map(cat => ({
-        cat,
-        tasks: cat.tasks.filter(t => t.status === 'in-progress')
-      })).filter(g => g.tasks.length > 0);
+      // Collect all in-progress tasks with their cat reference
+      const allInProgress = categories.flatMap(cat =>
+        cat.tasks
+          .filter(t => t.status === 'in-progress')
+          .map(t => ({ cat, task: t }))
+      );
 
-      const totalInProgress = inProgressGroups.reduce((sum, g) => sum + g.tasks.length, 0);
+      const totalInProgress = allInProgress.length;
 
       const tipPanel = document.createElement('div');
       tipPanel.className = 'tip-panel';
@@ -1406,7 +1953,7 @@
           <span class="tip-header-count">${totalInProgress} task${totalInProgress !== 1 ? 's' : ''}</span>
         </div>`;
 
-      if (inProgressGroups.length === 0) {
+      if (allInProgress.length === 0) {
         tipPanel.innerHTML += `
           <div class="tip-empty">
             <div class="icon">✅</div>
@@ -1414,51 +1961,64 @@
             <span>No tasks are currently in progress.</span>
           </div>`;
       } else {
-        inProgressGroups.forEach(({ cat, tasks }) => {
-          const isCollapsed = tipCollapsedGroups.has(cat.id);
-          const group = document.createElement('div');
-          group.className = 'tip-cat-group';
+        // Group by priority in order: critical, high, medium, low, then null (none)
+        PRIORITY_ORDER.forEach(priKey => {
+          const group = allInProgress.filter(({ task }) => (task.priority || null) === priKey);
+          if (group.length === 0) return;
 
-          // Accordion header
-          const label = document.createElement('div');
-          label.className = 'tip-cat-label' + (isCollapsed ? ' collapsed' : '');
-          label.dataset.action = 'toggle-tip-group';
-          label.dataset.cat    = cat.id;
-          label.innerHTML = `
-            <div class="tip-cat-dot"></div>
-            <span class="tip-cat-name">${esc(cat.name)}</span>
-            <span class="tip-cat-task-count">${tasks.length}</span>
-            <span class="tip-cat-chevron">▼</span>`;
-          group.appendChild(label);
+          const priInfo = priKey ? PRIORITIES.find(p => p.key === priKey) : null;
+          const priLabel = priInfo ? priInfo.label : 'No Priority';
+          const priDot   = priInfo ? priInfo.dot : '⚪';
+          const priCls   = priKey ? `pri-${priKey}` : 'pri-none';
+          const collapseKey = priKey || 'none';
+          const isCollapsed = tipCollapsedPriorityGroups.has(collapseKey);
 
-          // Accordion body (task rows)
+          const groupEl = document.createElement('div');
+          groupEl.className = 'tip-priority-group';
+
+          const labelEl = document.createElement('div');
+          labelEl.className = `tip-priority-label ${priCls}` + (isCollapsed ? ' collapsed' : '');
+          labelEl.dataset.action = 'toggle-tip-priority-group';
+          labelEl.dataset.prikey = collapseKey;
+          labelEl.innerHTML = `
+            <span style="font-size:0.9rem;">${priDot}</span>
+            <span class="tip-priority-name">${priLabel}</span>
+            <span class="tip-priority-count">${group.length}</span>
+            <span class="tip-priority-chevron">▼</span>`;
+          groupEl.appendChild(labelEl);
+
           const tasksWrap = document.createElement('div');
-          tasksWrap.className = 'tip-cat-tasks' + (isCollapsed ? ' collapsed' : '');
-          tasksWrap.innerHTML = tasks.map(t => {
-              const sub = t.subcatId != null
-                ? (cat.subcategories || []).find(s => s.id === t.subcatId)
-                : null;
-              const si       = statusInfo(t.status);
-              const hasNotes = t.notes && t.notes.trim() !== '' && t.notes !== '<br>';
-              return `
-                <div class="tip-task-row">
-                  <div class="task-check"
-                    data-action="quick-toggle" data-cat="${cat.id}" data-task="${t.id}" title="Toggle done"></div>
-                  <span class="task-name" id="task-name-${t.id}">${esc(t.name)}</span>
-                  ${sub ? `<span class="tip-subcat-badge">${esc(sub.name)}</span>` : ''}
-                  <button class="status-badge ${si.cls}"
-                    data-action="open-status" data-cat="${cat.id}" data-task="${t.id}">${si.label}</button>
-                  <div class="task-actions">
-                    <button class="btn-notes ${hasNotes ? 'has-notes' : ''}"
-                      data-action="open-notes" data-cat="${cat.id}" data-task="${t.id}"
-                      title="${hasNotes ? 'View/Edit Notes' : 'Add Notes'}">📝</button>
-                    <button class="btn-icon" data-action="edit-task" data-cat="${cat.id}" data-task="${t.id}" title="Rename">✏️</button>
-                    <button class="btn-icon" data-action="delete-task" data-cat="${cat.id}" data-task="${t.id}" title="Delete">🗑️</button>
-                  </div>
-                </div>`;
-            }).join('');
-          group.appendChild(tasksWrap);
-          tipPanel.appendChild(group);
+          tasksWrap.className = 'tip-priority-tasks' + (isCollapsed ? ' collapsed' : '');
+          tasksWrap.innerHTML = group.map(({ cat, task: t }) => {
+            const sub = t.subcatId != null
+              ? (cat.subcategories || []).find(s => s.id === t.subcatId)
+              : null;
+            const ssub = (sub && t.subsubcatId != null)
+              ? (sub.subsubcategories || []).find(ss => ss.id === t.subsubcatId)
+              : null;
+            const si       = statusInfo(t.status);
+            const hasNotes = t.notes && t.notes.trim() !== '' && t.notes !== '<br>';
+            return `
+              <div class="tip-task-row">
+                <div class="task-check"
+                  data-action="quick-toggle" data-cat="${cat.id}" data-task="${t.id}" title="Toggle done"></div>
+                <button class="task-link ${hasNotes ? 'has-notes' : ''}"
+                  id="task-name-${t.id}"
+                  data-action="open-task-editor" data-cat="${cat.id}" data-task="${t.id}"
+                  title="Click to edit task">${esc(t.name)}</button>
+                <span class="tip-cat-badge">${esc(cat.name)}</span>
+                ${sub ? `<span class="tip-subcat-badge">${esc(sub.name)}</span>` : ''}
+                ${ssub ? `<span class="tip-subcat-badge" style="background:#ede9fe;color:#5b21b6;">${esc(ssub.name)}</span>` : ''}
+                ${prioritySelectHTML(cat.id, t.id, t.priority || null)}
+                <button class="status-badge ${si.cls}"
+                  data-action="open-status" data-cat="${cat.id}" data-task="${t.id}">${si.label}</button>
+                <div class="task-actions">
+                  <button class="btn-icon" data-action="delete-task" data-cat="${cat.id}" data-task="${t.id}" title="Delete">🗑️</button>
+                </div>
+              </div>`;
+          }).join('');
+          groupEl.appendChild(tasksWrap);
+          tipPanel.appendChild(groupEl);
         });
       }
 
@@ -1529,6 +2089,67 @@
 
     panel.appendChild(sidebar);
 
+    // ── Middle: Sub-Subcategory sidebar ──
+    if (activeSubcatId !== null) {
+      const activeSub = subcats.find(s => s.id === activeSubcatId);
+      const subsubcats = (activeSub && activeSub.subsubcategories) || [];
+
+      const subsubSidebar = document.createElement('div');
+      subsubSidebar.className = 'subsubcat-sidebar';
+
+      const subsubTitle = document.createElement('div');
+      subsubTitle.className = 'subsubcat-sidebar-title';
+      subsubTitle.innerHTML = `<span>Sub-Subcategories</span>`;
+      subsubSidebar.appendChild(subsubTitle);
+
+      const subsubList = document.createElement('div');
+      subsubList.className = 'subsubcat-list';
+
+      // "All" row
+      const allSubSubTaskCount = cat.tasks.filter(t => t.subcatId === activeSubcatId).length;
+      const isAllActive = activeSubSubcatId === null;
+      const allRow = document.createElement('div');
+      allRow.className = 'subsubcat-all-row' + (isAllActive ? ' active' : '');
+      allRow.innerHTML = `
+        <button class="subsubcat-all-btn" data-action="select-subsubcat" data-cat="${cat.id}" data-subcat="${activeSubcatId}" data-subsubcat="">
+          <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">All</span>
+          <span class="subsubcat-row-count">${allSubSubTaskCount}</span>
+        </button>`;
+      subsubList.appendChild(allRow);
+
+      subsubcats.forEach(ssub => {
+        const ssTaskCount  = cat.tasks.filter(t => t.subcatId === activeSubcatId && t.subsubcatId === ssub.id).length;
+        const isActiveSSub = activeSubSubcatId === ssub.id;
+        const row = document.createElement('div');
+        row.className = 'subsubcat-row' + (isActiveSSub ? ' active' : '');
+        row.innerHTML = `
+          <button class="subsubcat-row-btn" data-action="select-subsubcat" data-cat="${cat.id}" data-subcat="${activeSubcatId}" data-subsubcat="${ssub.id}">
+            <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(ssub.name)}</span>
+            <span class="subsubcat-row-count">${ssTaskCount}</span>
+          </button>
+          <div class="subsubcat-row-actions">
+            <button class="subsubcat-rename-btn" data-action="rename-subsubcat" data-cat="${cat.id}" data-subcat="${activeSubcatId}" data-subsubcat="${ssub.id}" title="Rename">✏️</button>
+            <button class="subsubcat-delete-btn" data-action="delete-subsubcat" data-cat="${cat.id}" data-subcat="${activeSubcatId}" data-subsubcat="${ssub.id}" title="Delete">🗑️</button>
+          </div>`;
+        subsubList.appendChild(row);
+      });
+      subsubSidebar.appendChild(subsubList);
+
+      // Add sub-subcategory button
+      const addSSubRow = document.createElement('div');
+      addSSubRow.className = 'subsubcat-add-row';
+      const addSSubBtn = document.createElement('button');
+      addSSubBtn.className      = 'subsubcat-add-btn';
+      addSSubBtn.dataset.action = 'add-subsubcat';
+      addSSubBtn.dataset.cat    = cat.id;
+      addSSubBtn.dataset.subcat = activeSubcatId;
+      addSSubBtn.textContent    = '+ Add Sub-Subcategory';
+      addSSubRow.appendChild(addSSubBtn);
+      subsubSidebar.appendChild(addSSubRow);
+
+      panel.appendChild(subsubSidebar);
+    }
+
     // ── Right: Task content area ──
     const content = document.createElement('div');
     content.className = 'subcat-content';
@@ -1548,7 +2169,9 @@
         </div>`;
     } else {
       const activeSub    = subcats.find(s => s.id === activeSubcatId);
-      const visibleTasks = cat.tasks.filter(t => t.subcatId === activeSubcatId);
+      const visibleTasks = activeSubSubcatId !== null
+        ? cat.tasks.filter(t => t.subcatId === activeSubcatId && t.subsubcatId === activeSubSubcatId)
+        : cat.tasks.filter(t => t.subcatId === activeSubcatId);
 
       const taskListDiv = document.createElement('div');
       taskListDiv.className = 'task-list';
@@ -1558,10 +2181,13 @@
       // Add task row
       const addRow = document.createElement('div');
       addRow.className = 'add-task-row';
+      const addPlaceholder = activeSubSubcatId !== null
+        ? `Add a task to ${esc((activeSub.subsubcategories || []).find(ss => ss.id === activeSubSubcatId)?.name || activeSub.name)}…`
+        : `Add a task to ${esc(activeSub.name)}…`;
       addRow.innerHTML = `
         <input class="add-task-input" id="new-task-${cat.id}"
-          placeholder="Add a task to ${esc(activeSub.name)}…" maxlength="120"
-          data-catid="${cat.id}" data-subcatid="${activeSubcatId}" />
+          placeholder="${addPlaceholder}" maxlength="120"
+          data-catid="${cat.id}" data-subcatid="${activeSubcatId}" data-subsubcatid="${activeSubSubcatId !== null ? activeSubSubcatId : ''}" />
         <button class="btn btn-primary btn-sm" data-action="add-task" data-cat="${cat.id}">Add</button>`;
       taskListDiv.appendChild(addRow);
       content.appendChild(taskListDiv);
@@ -1572,6 +2198,15 @@
     updateStats();
   }
 
+  function priorityInfo(key) { return PRIORITIES.find(p => p.key === key) || null; }
+
+  function prioritySelectHTML(catId, taskId, currentPriority) {
+    const cls = currentPriority ? `priority-${currentPriority}` : 'priority-none';
+    const opts = `<option value="">— Priority —</option>` +
+      PRIORITIES.map(p => `<option value="${p.key}"${p.key === currentPriority ? ' selected' : ''}>${p.dot} ${p.label}</option>`).join('');
+    return `<select class="priority-select ${cls}" data-action="set-priority" data-cat="${catId}" data-task="${taskId}">${opts}</select>`;
+  }
+
   function taskRowHTML(catId, t) {
     const si       = statusInfo(t.status);
     const hasNotes = t.notes && t.notes.trim() !== '' && t.notes !== '<br>';
@@ -1579,15 +2214,14 @@
       <div class="task-row" id="task-row-${t.id}">
         <div class="task-check ${t.status === 'done' ? 'done' : ''}"
           data-action="quick-toggle" data-cat="${catId}" data-task="${t.id}" title="Toggle done"></div>
-        <span class="task-name ${t.status === 'done' ? 'done' : ''}"
-          id="task-name-${t.id}">${esc(t.name)}</span>
+        <button class="task-link ${t.status === 'done' ? 'done' : ''} ${hasNotes ? 'has-notes' : ''}"
+          id="task-name-${t.id}"
+          data-action="open-task-editor" data-cat="${catId}" data-task="${t.id}"
+          title="Click to edit task">${esc(t.name)}</button>
+        ${prioritySelectHTML(catId, t.id, t.priority || null)}
         <button class="status-badge ${si.cls}"
           data-action="open-status" data-cat="${catId}" data-task="${t.id}">${si.label}</button>
         <div class="task-actions">
-          <button class="btn-notes ${hasNotes ? 'has-notes' : ''}"
-            data-action="open-notes" data-cat="${catId}" data-task="${t.id}"
-            title="${hasNotes ? 'View/Edit Notes' : 'Add Notes'}">📝</button>
-          <button class="btn-icon" data-action="edit-task" data-cat="${catId}" data-task="${t.id}" title="Rename">✏️</button>
           <button class="btn-icon" data-action="delete-task" data-cat="${catId}" data-task="${t.id}" title="Delete">🗑️</button>
         </div>
       </div>`;
@@ -1604,6 +2238,23 @@
   }
 
   // ── Event delegation ──────────────────────────────────────────────────────
+  // ── Priority change handler ────────────────────────────────────────────────
+  document.addEventListener('change', e => {
+    const el = e.target.closest('[data-action="set-priority"]');
+    if (!el) return;
+    const catId  = parseInt(el.dataset.cat);
+    const taskId = parseInt(el.dataset.task);
+    const cat    = categories.find(c => c.id === catId);
+    const task   = cat && cat.tasks.find(t => t.id === taskId);
+    if (!task) return;
+    task.priority = el.value || null;
+    // Update select styling in-place
+    el.className = `priority-select ${task.priority ? 'priority-' + task.priority : 'priority-none'}`;
+    saveData();
+    // If we're on the TIP panel, re-render to re-sort groups
+    if (activeCatId === TIP_TAB_ID) render();
+  });
+
   document.addEventListener('click', e => {
     const el = e.target.closest('[data-action]');
     if (!el) return;
@@ -1624,16 +2275,39 @@
       if (tasksWrap) tasksWrap.classList.toggle('collapsed');
       return;
     }
+    if (action === 'toggle-tip-priority-group') {
+      const priKey = el.dataset.prikey;
+      if (tipCollapsedPriorityGroups.has(priKey)) {
+        tipCollapsedPriorityGroups.delete(priKey);
+      } else {
+        tipCollapsedPriorityGroups.add(priKey);
+      }
+      el.classList.toggle('collapsed');
+      const tasksWrap = el.nextElementSibling;
+      if (tasksWrap) tasksWrap.classList.toggle('collapsed');
+      return;
+    }
     if (action === 'select-subcat')   { selectSubcat(catId, el.dataset.subcat); }
     if (action === 'add-subcat')      { addSubcategory(catId); }
     if (action === 'rename-subcat')   { renameSubcategory(catId, parseInt(el.dataset.subcat)); }
     if (action === 'delete-subcat')   { deleteSubcategory(catId, parseInt(el.dataset.subcat)); }
+    if (action === 'select-subsubcat') {
+      const ssubVal = el.dataset.subsubcat;
+      activeCatId = catId;
+      activeSubcatId = parseInt(el.dataset.subcat);
+      activeSubSubcatId = ssubVal === '' ? null : parseInt(ssubVal);
+      render();
+    }
+    if (action === 'add-subsubcat')    { addSubSubcategory(catId, parseInt(el.dataset.subcat)); }
+    if (action === 'rename-subsubcat') { renameSubSubcategory(catId, parseInt(el.dataset.subcat), parseInt(el.dataset.subsubcat)); }
+    if (action === 'delete-subsubcat') { deleteSubSubcategory(catId, parseInt(el.dataset.subcat), parseInt(el.dataset.subsubcat)); }
     if (action === 'add-task')        { addTask(catId); }
     if (action === 'quick-toggle') { quickToggle(catId, taskId); }
     if (action === 'open-status')  { openStatusMenu(e, catId, taskId); }
     if (action === 'edit-task')    { editTaskName(catId, taskId); }
     if (action === 'delete-task')  { deleteTask(catId, taskId); }
     if (action === 'open-notes')   { openNotesModal(catId, taskId); }
+    if (action === 'open-task-editor') { openTaskEditor(catId, taskId); }
   });
 
   document.addEventListener('keydown', e => {
@@ -1641,6 +2315,7 @@
       addTask(parseInt(e.target.dataset.catid));
     }
     if (e.key === 'Escape') {
+      closeTaskEditor(true);
       closeNotesModal(true);
     }
   });
@@ -1650,12 +2325,14 @@
   function selectTab(id) {
     activeCatId    = id === TIP_TAB_ID ? TIP_TAB_ID : parseInt(id);
     activeSubcatId = null;
+    activeSubSubcatId = null;
     render();
   }
 
   function selectSubcat(catId, subcatId) {
     activeCatId    = catId;
     activeSubcatId = subcatId === '' ? null : parseInt(subcatId);
+    activeSubSubcatId = null;
     render();
   }
 
@@ -1686,6 +2363,42 @@
     cat.tasks = cat.tasks.filter(t => t.subcatId !== subcatId);
     if (activeSubcatId === subcatId) {
       activeSubcatId = cat.subcategories.length ? cat.subcategories[0].id : null;
+      activeSubSubcatId = null;
+    }
+    render(); saveData();
+  }
+
+  function addSubSubcategory(catId, subcatId) {
+    const name = prompt('Enter sub-subcategory name:');
+    if (!name || !name.trim()) return;
+    const cat = categories.find(c => c.id === catId);
+    const sub = (cat.subcategories || []).find(s => s.id === subcatId);
+    if (!sub) return;
+    if (!sub.subsubcategories) sub.subsubcategories = [];
+    const newSSub = { id: nextSubSubcatId++, name: name.trim() };
+    sub.subsubcategories.push(newSSub);
+    activeSubSubcatId = newSSub.id;
+    render(); saveData();
+  }
+
+  function renameSubSubcategory(catId, subcatId, subsubcatId) {
+    const cat  = categories.find(c => c.id === catId);
+    const sub  = (cat.subcategories || []).find(s => s.id === subcatId);
+    const ssub = (sub.subsubcategories || []).find(ss => ss.id === subsubcatId);
+    const name = prompt('Rename sub-subcategory:', ssub.name);
+    if (!name || !name.trim()) return;
+    ssub.name = name.trim();
+    render(); saveData();
+  }
+
+  function deleteSubSubcategory(catId, subcatId, subsubcatId) {
+    if (!confirm('Delete this sub-subcategory and all its tasks?')) return;
+    const cat = categories.find(c => c.id === catId);
+    const sub = (cat.subcategories || []).find(s => s.id === subcatId);
+    sub.subsubcategories = (sub.subsubcategories || []).filter(ss => ss.id !== subsubcatId);
+    cat.tasks = cat.tasks.filter(t => !(t.subcatId === subcatId && t.subsubcatId === subsubcatId));
+    if (activeSubSubcatId === subsubcatId) {
+      activeSubSubcatId = null;
     }
     render(); saveData();
   }
@@ -1725,8 +2438,9 @@
     const name    = inp.value.trim();
     if (!name) { inp.focus(); return; }
     const cat     = categories.find(c => c.id === catId);
-    const subcatId = inp.dataset.subcatid ? parseInt(inp.dataset.subcatid) : null;
-    cat.tasks.push({ id: nextTaskId++, name, status: 'not-started', notes: '', subcatId: subcatId || null });
+    const subcatId    = inp.dataset.subcatid    ? parseInt(inp.dataset.subcatid)    : null;
+    const subsubcatId = inp.dataset.subsubcatid ? parseInt(inp.dataset.subsubcatid) : null;
+    cat.tasks.push({ id: nextTaskId++, name, status: 'not-started', notes: '', subcatId: subcatId || null, subsubcatId: subsubcatId || null, priority: 'medium' });
     inp.value = '';
     render(); saveData();
     const el = document.getElementById(`new-task-${catId}`);
@@ -1801,6 +2515,99 @@
   }
 
   document.getElementById('overlay').addEventListener('click', closeStatusMenu);
+
+  // ── Task Editor Modal (name + notes combined) ────────────────────────────
+  const taskEditorBackdrop = document.getElementById('task-editor-backdrop');
+  const taskEditorNameInput = document.getElementById('task-editor-name');
+  const taskEditorNotes    = document.getElementById('task-editor-notes');
+  const taskEditorCount    = document.getElementById('task-editor-char-count');
+  let _editorCatId  = null;
+  let _editorTaskId = null;
+
+  function openTaskEditor(catId, taskId) {
+    const cat  = categories.find(c => c.id === catId);
+    const task = cat && cat.tasks.find(t => t.id === taskId);
+    if (!task) return;
+    _editorCatId  = catId;
+    _editorTaskId = taskId;
+
+    taskEditorNameInput.value  = task.name;
+    taskEditorNotes.innerHTML  = task.notes || '';
+    updateTaskEditorCount();
+
+    taskEditorBackdrop.classList.add('visible');
+    setTimeout(() => taskEditorNameInput.select(), 80);
+  }
+
+  function saveTaskEditor() {
+    if (_editorCatId == null || _editorTaskId == null) return;
+    const cat  = categories.find(c => c.id === _editorCatId);
+    const task = cat && cat.tasks.find(t => t.id === _editorTaskId);
+    if (!task) return;
+    const newName = taskEditorNameInput.value.trim();
+    if (newName) task.name = newName;
+    task.notes = taskEditorNotes.innerHTML;
+    saveData();
+  }
+
+  function closeTaskEditor(save = true) {
+    if (!taskEditorBackdrop.classList.contains('visible')) return;
+    if (save) saveTaskEditor();
+    taskEditorBackdrop.classList.remove('visible');
+    _editorCatId = _editorTaskId = null;
+    render();
+  }
+
+  function updateTaskEditorCount() {
+    const text = taskEditorNotes.innerText || '';
+    taskEditorCount.textContent = `${text.length} characters`;
+  }
+
+  // Save & Close
+  document.getElementById('task-editor-save-btn').addEventListener('click', () => closeTaskEditor(true));
+  // X button
+  document.getElementById('task-editor-close').addEventListener('click', () => closeTaskEditor(true));
+  // Click outside
+  taskEditorBackdrop.addEventListener('click', e => {
+    if (e.target === taskEditorBackdrop) closeTaskEditor(true);
+  });
+  // Clear notes
+  document.getElementById('task-editor-clear-btn').addEventListener('click', () => {
+    if (!confirm('Clear all notes for this task?')) return;
+    taskEditorNotes.innerHTML = '';
+    updateTaskEditorCount();
+  });
+  // Character count
+  taskEditorNotes.addEventListener('input', updateTaskEditorCount);
+  // Save on Enter in name field (moves focus to notes)
+  taskEditorNameInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); taskEditorNotes.focus(); }
+  });
+
+  // Formatting toolbar for task editor
+  document.getElementById('task-editor-toolbar').addEventListener('mousedown', e => {
+    const btn = e.target.closest('.toolbar-btn');
+    if (!btn) return;
+    e.preventDefault();
+    const cmd = btn.dataset.cmd;
+    const val = btn.dataset.val || null;
+    // Direct commands to the task-editor-notes div
+    taskEditorNotes.focus();
+    document.execCommand(cmd, false, val);
+    updateTaskEditorCount();
+  });
+
+  // Toolbar active state
+  document.addEventListener('selectionchange', () => {
+    if (!taskEditorBackdrop.classList.contains('visible')) return;
+    document.querySelectorAll('#task-editor-toolbar .toolbar-btn[data-cmd]').forEach(btn => {
+      const cmd = btn.dataset.cmd;
+      if (['bold','italic','underline','strikeThrough',
+           'insertUnorderedList','insertOrderedList'].includes(cmd)) {
+        btn.classList.toggle('active', document.queryCommandState(cmd));
+      }
+    });
+  });
 
   // ── Notes Modal ───────────────────────────────────────────────────────────
   const notesBackdrop = document.getElementById('notes-modal-backdrop');

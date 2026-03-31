@@ -719,6 +719,31 @@
     .priority-low      { background: #f0fdf4; color: #15803d; }
     .priority-none     { background: #f1f5f9; color: #64748b; }
 
+    /* ── TIP drag handle ── */
+    .tip-drag-handle {
+      flex-shrink: 0;
+      width: 18px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: grab; color: #c0cce0;
+      font-size: 0.85rem; letter-spacing: -1px;
+      border-radius: 4px;
+      transition: color 0.15s, background 0.15s;
+      user-select: none;
+      margin-right: 2px;
+    }
+    .tip-drag-handle:hover { color: var(--accent); background: var(--accent-light); }
+    .tip-drag-handle:active { cursor: grabbing; }
+    .tip-task-row.dragging {
+      opacity: 0.4;
+      background: var(--accent-light) !important;
+    }
+    .tip-task-row.drag-over-above {
+      border-top: 2px solid var(--accent);
+    }
+    .tip-task-row.drag-over-below {
+      border-bottom: 2px solid var(--accent);
+    }
+
     /* ── TIP Priority group header ── */
     .tip-priority-group { border-bottom: 1.5px solid var(--border); }
     .tip-priority-group:last-child { border-bottom: none; }
@@ -811,6 +836,8 @@
     .add-task-row {
       display: flex; gap: 8px; align-items: center;
       padding: 10px 18px 12px;
+      border-bottom: 1.5px solid var(--border);
+      background: #f8faff;
     }
     .add-task-input {
       flex: 1; padding: 7px 12px;
@@ -1325,11 +1352,11 @@
     .subcat-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
     /* ── Admin Button ── */
     .btn-admin {
-      background: #f59e0b;
-      color: #1e293b;
+      background: #92400e;
+      color: #fff;
       border: none;
     }
-    .btn-admin:hover { background: #d97706; }
+    .btn-admin:hover { background: #78350f; }
     .btn-admin.active {
       background: #fde68a;
       color: #92400e;
@@ -1568,15 +1595,14 @@
     from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 
   // ── Firebase Config ────────────────────────────────────────────────────────
-   const firebaseConfig = {
-                 apiKey:            "AIzaSyCm5V7AfWZ4nu1goC6rvPFk5i5CJ_DTTKI",
-                 authDomain:        "health-8bf9e.firebaseapp.com",
-                 projectId:         "health-8bf9e",
-                 storageBucket:     "health-8bf9e.firebasestorage.app",
-                 messagingSenderId: "337607108367",
-                 appId:             "1:337607108367:web:9209c3ec283765a434c07a"
-      };
-
+  const firebaseConfig = {
+          apiKey: "AIzaSyDEoFBVWYoevKM2Weq46N0iqHOzrxXmI7g",
+          authDomain: "career-832f9.firebaseapp.com",
+          projectId: "career-832f9",
+          storageBucket: "career-832f9.firebasestorage.app",
+          messagingSenderId: "921760217707",
+          appId: "1:921760217707:web:4bbbd13ab2102104d6cf2e"
+     };
 
   const app  = initializeApp(firebaseConfig);
   const db   = getFirestore(app);
@@ -1598,10 +1624,11 @@
   let activeSubSubcatId = null; // null = "All", or a sub-subcategory id
   let tipCollapsedGroups = new Set(); // tracks which cat IDs are collapsed in TIP panel
   let tipCollapsedPriorityGroups = new Set(); // tracks which priority keys are collapsed in TIP panel
+  let tipTaskOrder = {}; // priKey → [taskId, taskId, ...] custom order within each priority group
   let catOpenSections = {};           // catId → Set of open subcatIds
 
-  const MAX_CATS = 6;
-  const FIXED_CATEGORIES = ['Health & Fitness', 'Finance', 'Family & Friends', 'Lifestyle', 'Innovations', 'Stress Mgmt'];
+  const MAX_CATS = 5;
+  const FIXED_CATEGORIES = ['Projects', 'Performance Goals', 'Training', 'Career Growth', 'Networking'];
   const TIP_TAB_ID = 'tasks-in-progress'; // Special sentinel for the TIP tab
 
   const STATUSES = [
@@ -1642,6 +1669,7 @@
         nextTaskId   = data.nextTaskId   || 1;
         nextSubcatId = data.nextSubcatId || 1;
         nextSubSubcatId = data.nextSubSubcatId || 1;
+        tipTaskOrder = data.tipTaskOrder || {};
         if (categories.length) {
           const maxCat = Math.max(...categories.map(c => c.id));
           if (maxCat >= nextCatId) nextCatId = maxCat + 1;
@@ -1705,6 +1733,7 @@
         nextTaskId,
         nextSubcatId,
         nextSubSubcatId,
+        tipTaskOrder,
         email: currentUser.email,
         updatedAt: new Date().toISOString()
       });
@@ -1987,9 +2016,21 @@
             <span class="tip-priority-chevron">▼</span>`;
           groupEl.appendChild(labelEl);
 
+          // Apply stored order within this priority group
+          const orderKey = collapseKey;
+          const storedOrder = tipTaskOrder[orderKey];
+          if (storedOrder && storedOrder.length) {
+            group.sort((a, b) => {
+              const ai = storedOrder.indexOf(a.task.id);
+              const bi = storedOrder.indexOf(b.task.id);
+              // Tasks not in storedOrder go to end
+              return (ai === -1 ? 9999 : ai) - (bi === -1 ? 9999 : bi);
+            });
+          }
+
           const tasksWrap = document.createElement('div');
           tasksWrap.className = 'tip-priority-tasks' + (isCollapsed ? ' collapsed' : '');
-          tasksWrap.innerHTML = group.map(({ cat, task: t }) => {
+          tasksWrap.innerHTML = group.map(({ cat, task: t }, idx) => {
             const sub = t.subcatId != null
               ? (cat.subcategories || []).find(s => s.id === t.subcatId)
               : null;
@@ -1999,7 +2040,9 @@
             const si       = statusInfo(t.status);
             const hasNotes = t.notes && t.notes.trim() !== '' && t.notes !== '<br>';
             return `
-              <div class="tip-task-row">
+              <div class="tip-task-row" draggable="true"
+                data-tip-task="${t.id}" data-tip-prikey="${collapseKey}">
+                <span class="tip-drag-handle" title="Drag to reorder">⠿</span>
                 <div class="task-check"
                   data-action="quick-toggle" data-cat="${cat.id}" data-task="${t.id}" title="Toggle done"></div>
                 <button class="task-link ${hasNotes ? 'has-notes' : ''}"
@@ -2169,16 +2212,16 @@
         </div>`;
     } else {
       const activeSub    = subcats.find(s => s.id === activeSubcatId);
-      const visibleTasks = activeSubSubcatId !== null
+      const visibleTasks = (activeSubSubcatId !== null
         ? cat.tasks.filter(t => t.subcatId === activeSubcatId && t.subsubcatId === activeSubSubcatId)
-        : cat.tasks.filter(t => t.subcatId === activeSubcatId);
+        : cat.tasks.filter(t => t.subcatId === activeSubcatId)
+      ).sort((a, b) => (a.status === 'done' ? 1 : 0) - (b.status === 'done' ? 1 : 0));
 
       const taskListDiv = document.createElement('div');
       taskListDiv.className = 'task-list';
       taskListDiv.id        = `tasks-${cat.id}`;
-      taskListDiv.innerHTML = visibleTasks.map(t => taskRowHTML(cat.id, t)).join('');
 
-      // Add task row
+      // Add task row — at the TOP
       const addRow = document.createElement('div');
       addRow.className = 'add-task-row';
       const addPlaceholder = activeSubSubcatId !== null
@@ -2190,6 +2233,7 @@
           data-catid="${cat.id}" data-subcatid="${activeSubcatId}" data-subsubcatid="${activeSubSubcatId !== null ? activeSubSubcatId : ''}" />
         <button class="btn btn-primary btn-sm" data-action="add-task" data-cat="${cat.id}">Add</button>`;
       taskListDiv.appendChild(addRow);
+      taskListDiv.innerHTML += visibleTasks.map(t => taskRowHTML(cat.id, t)).join('');
       content.appendChild(taskListDiv);
     }
 
@@ -2705,6 +2749,93 @@
         btn.classList.toggle('active', document.queryCommandState(cmd));
       }
     });
+  });
+
+  // ── TIP panel drag-to-reorder ─────────────────────────────────────────────
+  let _dragTaskId  = null;
+  let _dragPriKey  = null;
+
+  function buildOrderForPriKey(priKey) {
+    const allInProgress = categories.flatMap(cat =>
+      cat.tasks.filter(t => t.status === 'in-progress').map(t => ({ cat, task: t }))
+    );
+    const priFilter = priKey === 'none' ? null : priKey;
+    const group = allInProgress.filter(({ task }) => (task.priority || null) === priFilter);
+    let order = tipTaskOrder[priKey] ? [...tipTaskOrder[priKey]] : group.map(({ task }) => task.id);
+    order = order.filter(id => group.some(({ task }) => task.id === id));
+    group.forEach(({ task }) => { if (!order.includes(task.id)) order.push(task.id); });
+    return order;
+  }
+
+  document.addEventListener('dragstart', e => {
+    const row = e.target.closest('.tip-task-row[data-tip-task]');
+    if (!row) return;
+    _dragTaskId = parseInt(row.dataset.tipTask);
+    _dragPriKey = row.dataset.tipPrikey;
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', _dragTaskId);
+    // Slight delay so the "dragging" class doesn't prevent the ghost image
+    setTimeout(() => row.classList.add('dragging'), 0);
+  });
+
+  document.addEventListener('dragend', e => {
+    const row = e.target.closest('.tip-task-row[data-tip-task]');
+    if (row) row.classList.remove('dragging');
+    document.querySelectorAll('.tip-task-row').forEach(r => {
+      r.classList.remove('drag-over-above', 'drag-over-below');
+    });
+    _dragTaskId = null;
+    _dragPriKey = null;
+  });
+
+  document.addEventListener('dragover', e => {
+    const row = e.target.closest('.tip-task-row[data-tip-task]');
+    if (!row || !_dragTaskId) return;
+    // Only allow within same priority group
+    if (row.dataset.tipPrikey !== _dragPriKey) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    // Determine above/below by cursor position within the row
+    const rect = row.getBoundingClientRect();
+    const mid  = rect.top + rect.height / 2;
+    document.querySelectorAll('.tip-task-row').forEach(r =>
+      r.classList.remove('drag-over-above', 'drag-over-below'));
+    if (e.clientY < mid) {
+      row.classList.add('drag-over-above');
+    } else {
+      row.classList.add('drag-over-below');
+    }
+  });
+
+  document.addEventListener('dragleave', e => {
+    const row = e.target.closest('.tip-task-row[data-tip-task]');
+    if (row) row.classList.remove('drag-over-above', 'drag-over-below');
+  });
+
+  document.addEventListener('drop', e => {
+    const targetRow = e.target.closest('.tip-task-row[data-tip-task]');
+    if (!targetRow || !_dragTaskId) return;
+    if (targetRow.dataset.tipPrikey !== _dragPriKey) return;
+    e.preventDefault();
+
+    const targetTaskId = parseInt(targetRow.dataset.tipTask);
+    if (targetTaskId === _dragTaskId) return;
+
+    const rect   = targetRow.getBoundingClientRect();
+    const dropAbove = e.clientY < rect.top + rect.height / 2;
+
+    let order = buildOrderForPriKey(_dragPriKey);
+    const fromIdx = order.indexOf(_dragTaskId);
+    let   toIdx   = order.indexOf(targetTaskId);
+    if (fromIdx === -1 || toIdx === -1) return;
+
+    // Remove dragged item, insert at new position
+    order.splice(fromIdx, 1);
+    toIdx = order.indexOf(targetTaskId);
+    order.splice(dropAbove ? toIdx : toIdx + 1, 0, _dragTaskId);
+
+    tipTaskOrder[_dragPriKey] = order;
+    saveData(); render();
   });
 
   // ── Init ──────────────────────────────────────────────────────────────────

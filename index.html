@@ -1516,6 +1516,9 @@
       <button class="toolbar-btn" data-cmd="indent"  title="Indent">→</button>
       <button class="toolbar-btn" data-cmd="outdent" title="Outdent">←</button>
       <div class="toolbar-sep"></div>
+      <!-- Checkbox -->
+      <button class="toolbar-btn" data-cmd="insertCheckbox" title="Insert checkbox">☑</button>
+      <div class="toolbar-sep"></div>
       <button class="toolbar-btn" data-cmd="removeFormat" title="Remove formatting">✕ fmt</button>
     </div>
 
@@ -1566,6 +1569,9 @@
       <!-- Indent -->
       <button class="toolbar-btn" data-cmd="indent"  title="Indent">→</button>
       <button class="toolbar-btn" data-cmd="outdent" title="Outdent">←</button>
+      <div class="toolbar-sep"></div>
+      <!-- Checkbox -->
+      <button class="toolbar-btn" data-cmd="insertCheckbox" title="Insert checkbox">☑</button>
       <div class="toolbar-sep"></div>
       <!-- Clear -->
       <button class="toolbar-btn" data-cmd="removeFormat" title="Remove formatting">✕ fmt</button>
@@ -2637,7 +2643,11 @@
     const val = btn.dataset.val || null;
     // Direct commands to the task-editor-notes div
     taskEditorNotes.focus();
-    document.execCommand(cmd, false, val);
+    if (cmd === 'insertCheckbox') {
+      document.execCommand('insertHTML', false, '<input type="checkbox"> ');
+    } else {
+      document.execCommand(cmd, false, val);
+    }
     updateTaskEditorCount();
   });
 
@@ -2734,7 +2744,11 @@
     e.preventDefault(); // keep editor focus
     const cmd = btn.dataset.cmd;
     const val = btn.dataset.val || null;
-    document.execCommand(cmd, false, val);
+    if (cmd === 'insertCheckbox') {
+      document.execCommand('insertHTML', false, '<input type="checkbox"> ');
+    } else {
+      document.execCommand(cmd, false, val);
+    }
     notesEditor.focus();
     updateCharCount();
   });

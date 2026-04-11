@@ -1625,7 +1625,7 @@
   let nextSubSubcatId = 1;
   let currentUser   = null;
   let authMode      = 'signin';
-  let activeCatId   = null;
+  let activeCatId   = 'tasks-in-progress'; // Default to In Progress tab on every open
   let activeSubcatId = null; // null = "All", or a subcategory id
   let activeSubSubcatId = null; // null = "All", or a sub-subcategory id
   let tipCollapsedGroups = new Set(); // tracks which cat IDs are collapsed in TIP panel

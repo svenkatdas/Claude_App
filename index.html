@@ -1517,7 +1517,7 @@
       <button class="toolbar-btn" data-cmd="outdent" title="Outdent">←</button>
       <div class="toolbar-sep"></div>
       <!-- Checkbox -->
-      <button class="toolbar-btn" data-cmd="insertCheckbox" title="Insert checkbox">☑</button>
+      <button class="toolbar-btn" data-cmd="insertCheckbox" title="Add checkbox to selected lines">☑</button>
       <div class="toolbar-sep"></div>
       <button class="toolbar-btn" data-cmd="removeFormat" title="Remove formatting">✕ fmt</button>
     </div>
@@ -1571,7 +1571,7 @@
       <button class="toolbar-btn" data-cmd="outdent" title="Outdent">←</button>
       <div class="toolbar-sep"></div>
       <!-- Checkbox -->
-      <button class="toolbar-btn" data-cmd="insertCheckbox" title="Insert checkbox">☑</button>
+      <button class="toolbar-btn" data-cmd="insertCheckbox" title="Add checkbox to selected lines">☑</button>
       <div class="toolbar-sep"></div>
       <!-- Clear -->
       <button class="toolbar-btn" data-cmd="removeFormat" title="Remove formatting">✕ fmt</button>
@@ -2634,6 +2634,69 @@
     if (e.key === 'Enter') { e.preventDefault(); taskEditorNotes.focus(); }
   });
 
+  // ── Checkbox helper: toggle checkboxes on all selected lines ─────────────────
+  function applyCheckboxToLines(editorEl) {
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0) return;
+    const range = sel.getRangeAt(0);
+
+    // Walk up from a node until its parent is the editor root
+    function getEditorChild(node) {
+      let n = node;
+      while (n && n.parentNode !== editorEl) n = n.parentNode;
+      return n;
+    }
+
+    const startEl = getEditorChild(range.startContainer);
+    const endEl   = getEditorChild(range.endContainer);
+    if (!startEl) return;
+
+    const children = Array.from(editorEl.childNodes);
+    const si = children.indexOf(startEl);
+    const ei = children.indexOf(endEl || startEl);
+    if (si === -1) return;
+
+    const lo = Math.min(si, ei);
+    const hi = Math.max(si, ei);
+    const targets = children.slice(lo, hi + 1).filter(n => n.nodeType === Node.ELEMENT_NODE);
+    if (!targets.length) return;
+
+    // Toggle: if every target already has a checkbox, remove them; otherwise add where missing
+    const allHave = targets.every(el => !!el.querySelector('input[type="checkbox"]'));
+
+    targets.forEach(el => {
+      if (allHave) {
+        const cb = el.querySelector('input[type="checkbox"]');
+        if (cb) {
+          // Remove trailing space inserted alongside the checkbox
+          const next = cb.nextSibling;
+          if (next && next.nodeType === Node.TEXT_NODE && next.textContent.startsWith('\u00a0')) {
+            next.textContent = next.textContent.slice(1);
+          } else if (next && next.nodeType === Node.TEXT_NODE && next.textContent.startsWith(' ')) {
+            next.textContent = next.textContent.slice(1);
+          }
+          cb.remove();
+        }
+      } else {
+        if (!el.querySelector('input[type="checkbox"]')) {
+          const cb = document.createElement('input');
+          cb.type = 'checkbox';
+          el.insertBefore(document.createTextNode('\u00a0'), el.firstChild);
+          el.insertBefore(cb, el.firstChild);
+        }
+      }
+    });
+  }
+
+  // Persist checkbox checked state into the attribute so innerHTML saves it correctly
+  function syncCheckboxAttr(e) {
+    if (e.target.type === 'checkbox') {
+      if (e.target.checked) e.target.setAttribute('checked', '');
+      else e.target.removeAttribute('checked');
+    }
+  }
+  taskEditorNotes.addEventListener('change', syncCheckboxAttr);
+
   // Formatting toolbar for task editor
   document.getElementById('task-editor-toolbar').addEventListener('mousedown', e => {
     const btn = e.target.closest('.toolbar-btn');
@@ -2644,7 +2707,7 @@
     // Direct commands to the task-editor-notes div
     taskEditorNotes.focus();
     if (cmd === 'insertCheckbox') {
-      document.execCommand('insertHTML', false, '<input type="checkbox"> ');
+      applyCheckboxToLines(taskEditorNotes);
     } else {
       document.execCommand(cmd, false, val);
     }
@@ -2745,13 +2808,17 @@
     const cmd = btn.dataset.cmd;
     const val = btn.dataset.val || null;
     if (cmd === 'insertCheckbox') {
-      document.execCommand('insertHTML', false, '<input type="checkbox"> ');
+      notesEditor.focus();
+      applyCheckboxToLines(notesEditor);
     } else {
       document.execCommand(cmd, false, val);
+      notesEditor.focus();
     }
-    notesEditor.focus();
     updateCharCount();
   });
+
+  // Persist checkbox state in notes editor
+  notesEditor.addEventListener('change', syncCheckboxAttr);
 
   // Toolbar active state on selection change
   document.addEventListener('selectionchange', () => {
